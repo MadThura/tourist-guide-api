@@ -16,7 +16,7 @@ class UserController extends Controller
         $validator = Validator::make(request()->all(), [
             'name' => ['required', 'min:2', 'max:50'],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => ['required', 'min:6', 'max:30']
+            'password' => ['required', 'min:6', 'max:30'],
         ]);
 
         if ($validator->fails()) {
@@ -29,7 +29,8 @@ class UserController extends Controller
         $user = User::create([
             'name' => request('name'),
             'email' => request('email'),
-            'password' => request('password')
+            'password' => request('password'),
+            'role' => 'user'
         ]);
 
         $token = $user->createToken('user-token')->plainTextToken;

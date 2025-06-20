@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function savedPlaces()
+    {
+        return $this->belongsToMany(Place::class);
+    }
+
+    public function isSaved($place)
+    {
+        return $this->savedPlaces->contains('id', $place->id);
+    }
 }
