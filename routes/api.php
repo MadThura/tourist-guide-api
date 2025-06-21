@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\SaveController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Http\Request;
@@ -15,6 +17,19 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+
+    Route::get('/places', [PlaceController::class, 'index']);
+    Route::post('/places', [PlaceController::class, 'store']);
+    // Route::get('/places/{place}/edit', [PlaceController::class, 'edit']);
+    Route::patch('/places/{place}', [PlaceController::class, 'update']);
+    Route::delete('/places/{place}', [PlaceController::class, 'destory']);
+
+    // Category
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::patch('/categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+
     Route::get('/admin', function () {
         return response()->json([
             'message' => 'hi admin'
