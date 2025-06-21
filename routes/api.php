@@ -3,9 +3,8 @@
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SaveController;
-use App\Http\Middleware\AdminMiddleware;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,13 +13,19 @@ Route::post('/users/login', [UserController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/places/{place}/handle-save', [SaveController::class, 'handleSavingPlaces']);
+
+    // Review
+    Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
+    Route::patch('/reviews/{review}', [ReviewController::class, 'update']);
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
+
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
+    // Place
     Route::get('/places', [PlaceController::class, 'index']);
     Route::post('/places', [PlaceController::class, 'store']);
-    // Route::get('/places/{place}/edit', [PlaceController::class, 'edit']);
     Route::patch('/places/{place}', [PlaceController::class, 'update']);
     Route::delete('/places/{place}', [PlaceController::class, 'destory']);
 

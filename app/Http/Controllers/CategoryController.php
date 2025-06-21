@@ -28,7 +28,7 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => 'fail',
                 'errors' => $validator->errors()
-            ]);
+            ], 422);
         }
 
         $category = Category::create($validator->validated());
@@ -36,7 +36,7 @@ class CategoryController extends Controller
         return response()->json([
             'status' => 'success',
             'category' => $category
-        ]);
+        ], 201);
     }
 
 
@@ -50,7 +50,7 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => 'fail',
                 'errors' => $validator->errors()
-            ]);
+            ], 422);
         }
 
         $category->name = $request->name;

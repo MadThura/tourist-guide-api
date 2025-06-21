@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->savedPlaces->contains('id', $place->id);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
