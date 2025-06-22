@@ -9,6 +9,11 @@ class Place extends Model
 {
     use HasFactory;
 
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
     public function savedUsers()
     {
         return $this->belongsToMany(User::class);
