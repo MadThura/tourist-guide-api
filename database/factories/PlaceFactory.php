@@ -22,7 +22,6 @@ class PlaceFactory extends Factory
             'location' => fake()->word(),
             'latitude' => fake()->latitude(),
             'longitude' => fake()->longitude(),
-            'image' => fake()->imageUrl()
         ];
     }
 }

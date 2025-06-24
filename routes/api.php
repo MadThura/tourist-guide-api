@@ -26,8 +26,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Place
     Route::get('/places', [PlaceController::class, 'index']);
     Route::post('/places', [PlaceController::class, 'store']);
-    Route::patch('/places/{place}', [PlaceController::class, 'update']);
-    Route::delete('/places/{place}', [PlaceController::class, 'destory']);
+    Route::put('/places/{place}', [PlaceController::class, 'update']);
+    Route::delete('/places/{place}', [PlaceController::class, 'destroy']);
 
     // Category
     Route::get('/categories', [CategoryController::class, 'index']);
