@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PlaceController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\SaveController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\PlaceController;
+use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\SaveController;
 use Illuminate\Support\Facades\Route;
 
 
