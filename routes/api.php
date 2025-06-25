@@ -13,12 +13,13 @@ Route::post('/users/register', [UserController::class, 'store']);
 Route::post('/users/login', [UserController::class, 'login']);
 
 Route::get('/places', [PlaceController::class, 'index']);
+Route::get('/places/{place}/reviews', [ReviewController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/places/{place}/handle-save', [SaveController::class, 'handleSavingPlaces']);
 
     // Review
-    Route::get('/places/{place}/reviews', [ReviewController::class, 'index']);
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{review}', [ReviewController::class, 'update']);
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
@@ -32,7 +33,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::delete('/places/{place}', [PlaceController::class, 'destroy']);
 
     // Category
-    Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
