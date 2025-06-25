@@ -11,6 +11,14 @@ use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
+    public function index(Place $place)
+    {
+        return response()->json([
+            'status' => 'success',
+            'data' => $place->reviews()
+        ]);
+    }
+
     public function store(Request $request, Place $place)
     {
         $validator = Validator::make($request->all(), [
