@@ -17,11 +17,11 @@ class PlaceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
+            'name' => fake()->unique()->word(),
             'description' => fake()->paragraph(),
-            'location' => fake()->word(),
-            'latitude' => fake()->latitude(),
-            'longitude' => fake()->longitude(),
+            'location' => fake()->unique()->word(),
+            'latitude' => fake()->unique()->latitude(),
+            'longitude' => fake()->unique()->longitude(),
         ];
     }
 }
