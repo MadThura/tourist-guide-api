@@ -16,6 +16,11 @@ class Place extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function savedUsers()
     {
         return $this->belongsToMany(User::class);
@@ -24,5 +29,20 @@ class Place extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public static function scopeFilter($query, $filters = [])
+    {
+        if ($search = $filters['search'] ?? null) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            });
+        }
+        if ($category = $filters['category'] ?? null) {
+            $query->whereHas('category', function ($q) use ($category) {
+                $q->where('name', $category);
+            });
+        }
+        return $query;
     }
 }

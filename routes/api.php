@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/users/register', [UserController::class, 'store']);
 Route::post('/users/login', [UserController::class, 'login']);
 
+Route::get('/places', [PlaceController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/places/{place}/handle-save', [SaveController::class, 'handleSavingPlaces']);
 
@@ -20,13 +22,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{review}', [ReviewController::class, 'update']);
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
-
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Place
-    Route::get('/places', [PlaceController::class, 'index']);
     Route::post('/places', [PlaceController::class, 'store']);
     Route::put('/places/{place}', [PlaceController::class, 'update']);
     Route::delete('/places/{place}', [PlaceController::class, 'destroy']);

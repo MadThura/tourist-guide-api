@@ -13,7 +13,8 @@ class PlaceController extends Controller
 {
     public function index()
     {
-        $places = Place::all();
+        $places = Place::with('category')
+        ->filter(request(['search', 'category']))->latest()->get();
 
         return response()->json([
             'status' => 'success',

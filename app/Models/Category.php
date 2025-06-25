@@ -8,8 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
     ];
+
+    public function places()
+    {
+        return $this->hasMany(Place::class);
+    }
 }
