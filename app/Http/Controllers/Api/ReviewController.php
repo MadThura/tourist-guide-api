@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ReviewRemovedMail;
 use App\Models\Place;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -78,7 +80,7 @@ class ReviewController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, Review $review)
+    public function destroyByUser(Request $request, Review $review)
     {
         $user = $request->user();
         if ($user->id !== $review->user_id) {
@@ -92,6 +94,18 @@ class ReviewController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Review deleted successfully'
+        ]);
+    }
+
+    public function destroyByAdmin(Review $review)
+    {
+        Mail::to($review->user->email)->send(new ReviewRemovedMail($review));
+
+        $review->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Review removed and sent email successfully'
         ]);
     }
 }

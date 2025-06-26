@@ -5,9 +5,14 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SaveController;
-use App\Models\Review;
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    Mail::to('test@gmail.com')->send(new TestMail());
+    dd('mail sent');
+});
 
 Route::post('/users/register', [UserController::class, 'store']);
 Route::post('/users/login', [UserController::class, 'login']);
@@ -22,7 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Review
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{review}', [ReviewController::class, 'update']);
-    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
+    Route::delete('/user/reviews/{review}', [ReviewController::class, 'destroyByUser']);
 });
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
@@ -36,6 +41,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+
+    // Admin deletes any review and notifies user
+    Route::delete('/admin/reviews/{review}', [ReviewController::class, 'destroyByAdmin']);
 
     Route::get('/admin', function () {
         return response()->json([
