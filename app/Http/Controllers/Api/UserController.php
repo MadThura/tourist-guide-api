@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -32,6 +33,7 @@ class UserController extends Controller
             'role' => 'user'
         ]);
 
+        event(new Registered($user));
         $token = $user->createToken('user-token')->plainTextToken;
 
         return response()->json([
