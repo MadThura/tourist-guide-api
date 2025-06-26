@@ -43,6 +43,23 @@ class Place extends Model
                 $q->where('name', $category);
             });
         }
+
+        if ($filters['sortBy_rating'] && $filters['sortBy_rating'] === 'desc') {
+            $query->withCount([
+                'reviews as good_reviews_count' => function ($q) {
+                    $q->where('rating', 'good');
+                },
+            ])->orderBy('good_reviews_count', 'desc');
+        }
+
+        if ($filters['sortBy_rating'] && $filters['sortBy_rating'] === 'asc') {
+            $query->withCount([
+                'reviews as good_reviews_count' => function ($q) {
+                    $q->where('rating', 'good');
+                },
+            ])->orderBy('good_reviews_count', 'asc');
+        }
+
         return $query;
     }
 }

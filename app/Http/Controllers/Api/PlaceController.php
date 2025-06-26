@@ -14,7 +14,7 @@ class PlaceController extends Controller
     public function index()
     {
         $places = Place::with('category')
-        ->filter(request(['search', 'category']))->latest()->get();
+        ->filter(request(['search', 'category', 'sortBy_rating']))->get();
 
         return response()->json([
             'status' => 'success',
