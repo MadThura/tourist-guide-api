@@ -17,13 +17,17 @@ Route::post('/email/resend', [EmailVerificationController::class, 'resend'])
     ->middleware(['auth', 'throttle:6,1']) // 6 attempts per minute
     ->name('verification.send');
 
-   
+
 Route::get('/places', [PlaceController::class, 'index']);
 Route::get('/places/{place}/reviews', [ReviewController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::middleware('auth:sanctum', 'verified')->group(function () {
     Route::post('/places/{place}/handle-save', [SaveController::class, 'handleSavingPlaces']);
+
+    // User view saved places
+    Route::get('/{user}/saved-places', [PlaceController::class, 'getSavedPlaces']);
+
 
     // Review
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
