@@ -35,16 +35,21 @@ class Place extends Model
     {
         if ($search = $filters['search'] ?? null) {
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', '%' . $search . '%');
+                $q->where('name', 'LIKE', '%' . $search . '%')
+                ->orWhere('location', 'LIKE', '%' . $search . '%');
             });
         }
         if ($category = $filters['category'] ?? null) {
             $query->whereHas('category', function ($q) use ($category) {
-                $q->where('name', $category);
+                $q->where('id', $category);
             });
         }
 
-        if ($filters['sortBy_rating'] && $filters['sortBy_rating'] === 'desc') {
+        if(($filters['sort'] ?? null) === 'latest') {
+            $query->latest();
+        }
+
+        if (($filters['sortBy_rating'] ?? null) === 'desc') {
             $query->withCount([
                 'reviews as good_reviews_count' => function ($q) {
                     $q->where('rating', 'good');
@@ -52,7 +57,7 @@ class Place extends Model
             ])->orderBy('good_reviews_count', 'desc');
         }
 
-        if ($filters['sortBy_rating'] && $filters['sortBy_rating'] === 'asc') {
+        if (($filters['sortBy_rating'] ?? null) === 'asc') {
             $query->withCount([
                 'reviews as good_reviews_count' => function ($q) {
                     $q->where('rating', 'good');
