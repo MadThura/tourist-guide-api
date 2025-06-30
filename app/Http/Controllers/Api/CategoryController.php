@@ -19,28 +19,6 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required', 'string', 'max:20']
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $category = Category::create($validator->validated());
-
-        return response()->json([
-            'status' => 'success',
-            'category' => $category
-        ], 201);
-    }
-
-
     public function update(Category $category, Request $request)
     {
         $validator = Validator::make($request->all(), [
