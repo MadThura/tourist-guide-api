@@ -28,7 +28,6 @@ Route::middleware('auth:sanctum', 'verified')->group(function () {
     // User view saved places
     Route::get('/{user}/saved-places', [PlaceController::class, 'getSavedPlaces']);
 
-
     // Review
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{review}', [ReviewController::class, 'update']);
