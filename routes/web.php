@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PlaceController;
+use App\Http\Controllers\Admin\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin', function () {
@@ -24,4 +25,9 @@ Route::prefix('admin/categories')->name('admin.categories.')->group(function () 
     Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
     Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
     Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+});
+
+Route::prefix('admin/reviews')->name('admin.reviews.')->group(function () {
+    Route::get('/', [ReviewController::class, 'index'])->name('index');
+    Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
 });
