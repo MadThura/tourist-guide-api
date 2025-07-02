@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -17,14 +18,20 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'admin' => AdminMiddleware::class,
+            'auth' => Authenticate::class,
         ]);;
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
         $exceptions->render(function (NotFoundHttpException | ModelNotFoundException $e, $request) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Resource not found.'
-            ], 404);
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Resource not found.'
+                ], 404);
+            }
+            // For web requests, fallback to normal error page (like resources/views/errors/404.blade.php)
+            return null;
         });
 
         // Optional: catch all unhandled exceptions for JSON-only projects

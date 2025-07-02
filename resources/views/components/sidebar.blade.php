@@ -2,7 +2,7 @@
  <aside class="w-64 bg-white shadow-md p-4 flex flex-col">
      <div class="text-2xl font-bold mb-6">Tourist Guide</div>
      <nav class="flex-1 space-y-2">
-         <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Dashboard</a>
+         <a href="{{route('admin.dashboard')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Dashboard</a>
          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Users</a>
          <a href="{{route('admin.places.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Places</a>
          <a href="{{route('admin.categories.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Categories</a>

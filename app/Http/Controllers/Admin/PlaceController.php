@@ -12,7 +12,7 @@ class PlaceController extends Controller
     public function index()
     {
         return view('admin.places.index', [
-            'places' => Place::with('category')->filter(request(['search', 'category', 'sort']))->paginate(),
+            'places' => Place::with('category', 'images')->filter(request(['search', 'category', 'sort']))->paginate(),
             'categories' => Category::all()
         ]);
     }
@@ -47,8 +47,20 @@ class PlaceController extends Controller
                 ->withErrors(['name' => 'A place with this name and location already exists.']);
         }
 
+        if ($request->hasFile('image')) {
+            $path =  $request->file('image')->store('places', 'public');
+            $validated['image'] = $path;
+        }
+
         // If not duplicate, create new place
-        Place::create($validated);
+        $place = Place::create($validated);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('places', 'public');
+                $place->images()->create(['path' => $path]);
+            }
+        }
 
         return redirect()->back()
             ->with('success', 'Place created successfully.');
