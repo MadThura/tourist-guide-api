@@ -50,7 +50,7 @@ class PlaceController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $path =  $request->file('image')->store('places', 'public');
+            $path =  $request->file('image')->store('images/places/main_images', 'public');
             $validated['image'] = $path;
         }
 
@@ -59,7 +59,7 @@ class PlaceController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('places', 'public');
+                $path = $image->store('images/places/add_images', 'public');
                 $place->images()->create(['path' => $path]);
             }
         }
@@ -95,9 +95,72 @@ class PlaceController extends Controller
         $place->latitude = $request->latitude;
         $place->longitude = $request->longitude;
         $place->category_id = $request->category_id;
+
+        if ($request->hasFile('image')) {
+            $newImage = $request->file('image');
+            $newHash = md5_file($newImage->getRealPath());
+
+            $currentHash = null;
+            if ($place->image && Storage::disk('public')->exists($place->image)) {
+                $currentHash = md5(Storage::disk('public')->get($place->image));
+            }
+
+            if ($newHash !== $currentHash) {
+                if ($place->image) {
+                    Storage::disk('public')->delete($place->image);
+                }
+
+                $path = $newImage->store('images/places/main_images', 'public');
+                $place->image = $path;
+            } else {
+                return back()->with('fail', 'This image is already uploaded.');
+            }
+        }
+
+        if ($request->hasFile('images')) {
+            $uploaded = $request->file('images');
+
+            $uploadedHashes = [];
+            foreach ($uploaded as $file) {
+                $uploadedHashes[] = md5_file($file->getRealPath());
+            }
+
+            foreach ($place->images as $img) {
+                $fullPath = storage_path('app/public/' . $img->path);
+                if (file_exists($fullPath)) {
+                    $oldHash = md5_file($fullPath);
+                    if (!in_array($oldHash, $uploadedHashes)) {
+                        Storage::disk('public')->delete($img->path);
+                        $img->delete();
+                    }
+                }
+            }
+
+            foreach ($uploaded as $file) {
+                $hash = md5_file($file->getRealPath());
+                $exists = false;
+
+                foreach ($place->images as $img) {
+                    $storedPath = storage_path('app/public/' . $img->path);
+                    if (file_exists($storedPath) && md5_file($storedPath) === $hash) {
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                if (!$exists) {
+                    $path = $file->store('images/places/add_images', 'public');
+                    $place->images()->create(['path' => $path]);
+                } else {
+                    // If the image already exists, return the fail message
+                    return back()->with('fail', 'This image is already uploaded.');
+                }
+            }
+        }
+
         $place->update();
 
-        return redirect()->route('admin.places')->with('success', 'Place updated successfully.');
+        return back()->with('success', 'Place updated successfully.');
     }
 
 
