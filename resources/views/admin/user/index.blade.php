@@ -1,6 +1,31 @@
 <x-layout>
     <h1 class="text-2xl font-bold mb-6">User Management</h1>
 
+    <form method="GET" action="{{ route('admin.users.index') }}" class="mb-4 flex flex-col md:flex-row items-start md:items-center gap-4">
+        <input type="text" name="search" value="{{ request('search') }}"
+            placeholder="Search by name or email"
+            class="border border-gray-300 rounded px-3 py-2 w-full md:w-1/3">
+
+        <select name="role" class="border border-gray-300 rounded px-3 py-2 w-full md:w-1/4">
+            <option value="">All Roles</option>
+            @foreach (['admin', 'moderator', 'user'] as $role)
+            <option value="{{ $role }}" {{ request('role') === $role ? 'selected' : '' }}>
+                {{ ucfirst($role) }}
+            </option>
+            @endforeach
+        </select>
+
+        <select name="status" class="border border-gray-300 rounded px-3 py-2 w-full md:w-1/4">
+            <option value="">All Status</option>
+            <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
+            <option value="suspended" {{ request('status') === 'suspended' ? 'selected' : '' }}>Suspended</option>
+        </select>
+
+        <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600">
+            Filter
+        </button>
+    </form>
+
     <div class="overflow-x-auto bg-white shadow-md rounded-lg">
         <table class="min-w-full table-auto text-sm text-left text-gray-600">
             <thead class="bg-gray-100 text-xs uppercase text-gray-700">
@@ -13,11 +38,10 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-                @foreach ($users as $user)
+                @forelse ($users as $user)
                 <tr class="hover:bg-gray-50">
                     <td class="px-4 py-3">{{ $user->name }}</td>
                     <td class="px-4 py-3">{{ $user->email }}</td>
-
                     <td class="px-4 py-3">
                         <form method="POST" action="{{ route('admin.users.changeRole', $user) }}">
                             @csrf
@@ -31,16 +55,14 @@
                             </select>
                         </form>
                     </td>
-
                     <td class="px-4 py-3">
                         <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium
                             {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                             {{ $user->is_active ? 'Active' : 'Suspended' }}
                         </span>
                     </td>
-
                     <td class="px-4 py-3 text-center">
-                        <form method="POST" action="{{route('admin.users.toogle', $user)}}">
+                        <form method="POST" action="{{ route('admin.users.toogle', $user) }}">
                             @csrf
                             @method('PATCH')
                             <button class="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded text-xs">
@@ -49,7 +71,11 @@
                         </form>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center px-4 py-6 text-gray-400">No users found.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
