@@ -1,6 +1,7 @@
 <x-layout>
     <h1 class="text-2xl font-bold mb-4">{{ isset($place) ? "Edit Place" : "Create Place" }}</h1>
 
+    {{-- Main Create/Update Form --}}
     <form method="POST"
         action="{{ isset($place) ? route('admin.places.update', $place) : route('admin.places.store') }}"
         enctype="multipart/form-data"
@@ -56,6 +57,8 @@
 
             {{-- Right Column --}}
             <div class="space-y-4">
+
+                {{-- Main Image --}}
                 <div>
                     <label class="block mb-1">Main Image</label>
                     <input type="file" name="image" accept="image/*"
@@ -63,22 +66,21 @@
                     @error('image') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
                     @if(isset($place) && $place->image)
-                    <div class="relative mt-2 w-fit">
+                    <div class="relative mt-3 w-fit">
                         <img src="{{ asset('storage/' . $place->image) }}" alt="Main Image"
                             class="max-h-32 rounded shadow">
 
-                        <form method="POST" action="" onsubmit="return confirm('Delete this main image?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-700 shadow z-10">
-                                ✕
-                            </button>
-                        </form>
+                        <button type="submit"
+                            form="delete-main-image"
+                            onclick="return confirm('Delete this main image?')"
+                            class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-700 shadow z-10">
+                            ✕
+                        </button>
                     </div>
                     @endif
                 </div>
 
+                {{-- Additional Images --}}
                 <div>
                     <label class="block mb-1">Additional Images</label>
                     <input type="file" name="images[]" accept="image/*" multiple
@@ -86,20 +88,17 @@
                     @error('images.*') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
                     @if(isset($place) && $place->images)
-                    <div class="flex flex-wrap gap-2 mt-2">
+                    <div class="flex flex-wrap gap-2 mt-3">
                         @foreach($place->images as $img)
-                        <div class="relative">
+                        <div class="relative mr-0.5">
                             <img src="{{ asset('storage/' . $img->path) }}" class="max-h-24 rounded shadow">
 
-                            <form method="POST" action="" class="absolute -top-2 -right-2"
-                                onsubmit="return confirm('Delete this image?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-700 shadow">
-                                    ✕
-                                </button>
-                            </form>
+                            <button type="submit"
+                                form="delete-image-{{ $img->id }}"
+                                onclick="return confirm('Delete this image?')"
+                                class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-700 shadow">
+                                ✕
+                            </button>
                         </div>
                         @endforeach
                     </div>
@@ -107,7 +106,7 @@
                 </div>
             </div>
 
-            {{-- Description (Full Width) --}}
+            {{-- Full Width Description --}}
             <div class="md:col-span-2">
                 <label class="block mb-1">Description</label>
                 <textarea name="description" rows="5"
@@ -123,4 +122,21 @@
             </button>
         </div>
     </form>
+
+    {{-- DELETE FORMS OUTSIDE MAIN FORM --}}
+    @if(isset($place) && $place->image)
+    <form method="POST" action="{{ route('admin.places.image.destroy', $place) }}" id="delete-main-image" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+    @endif
+
+    @if(isset($place) && $place->images)
+    @foreach($place->images as $img)
+    <form method="POST" action="{{ route('admin.places.images.destroy', [$place, $img]) }}" id="delete-image-{{ $img->id }}" style="display: none;">
+        @csrf
+        @method('DELETE')
+    </form>
+    @endforeach
+    @endif
 </x-layout>

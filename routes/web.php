@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PlaceController;
@@ -31,6 +30,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/{place}/edit', [PlaceController::class, 'edit'])->name('edit');
         Route::put('/{place}', [PlaceController::class, 'update'])->name('update');
         Route::delete('/{place}', [PlaceController::class, 'destroy'])->name('destroy');
+
+        //images delete
+        Route::delete('/{place}/image', [PlaceController::class, 'destroyMainImage'])->name('image.destroy');
+        Route::delete('/{place}/images/{image}', [PlaceController::class, 'destroyImage'])->name('images.destroy');
     });
 
     Route::prefix('/categories')->name('categories.')->group(function () {

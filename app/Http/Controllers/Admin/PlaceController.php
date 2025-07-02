@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Place;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PlaceController extends Controller
 {
@@ -97,6 +99,38 @@ class PlaceController extends Controller
 
         return redirect()->route('admin.places')->with('success', 'Place updated successfully.');
     }
+
+
+    public function destroyMainImage(Place $place)
+    {
+
+        if ($place->image && Storage::disk('public')->exists($place->image)) {
+            Storage::disk('public')->delete($place->image);
+        }
+
+        $place->image = null;
+        $place->save();
+
+        return back()->with('success', 'Main image deleted.');
+    }
+
+    public function destroyImage(Place $place, Image $image)
+    {
+        // Make sure the image belongs to the place
+        if ($image->place_id !== $place->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if ($image->path && Storage::disk('public')->exists($image->path)) {
+            Storage::disk('public')->delete($image->path);
+        }
+
+        // Delete the database record
+        $image->delete();
+
+        return back()->with('success', 'Image deleted.');
+    }
+
 
     public function destroy(Place $place)
     {
