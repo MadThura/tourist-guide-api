@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PlaceController;
 use App\Http\Controllers\Admin\ReviewController;
+use App\Http\Controllers\Admin\UserController;
+use App\Models\Place;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +24,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
+
+    Route::prefix('/users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::patch('/{user}/changeRole', [UserController::class, 'changeRole'])->name('changeRole');
+        Route::patch('/{user}/toggle', [UserController::class, 'toggleStatus'])->name('toogle');
+    });
 
     Route::prefix('/places')->name('places.')->group(function () {
         Route::get('/', [PlaceController::class, 'index'])->name('index');
