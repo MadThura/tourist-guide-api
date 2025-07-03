@@ -27,36 +27,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function () {
 
     // User view saved places
     Route::get('/{user}/saved-places', [PlaceController::class, 'getSavedPlaces']);
-
-
     // Review
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{review}', [ReviewController::class, 'update']);
-    Route::delete('/user/reviews/{review}', [ReviewController::class, 'destroyByUser']);
+    Route::delete('/user/reviews/{review}', [ReviewController::class, 'destroy']);
 });
-
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-
-    // Place
-    Route::post('/places', [PlaceController::class, 'store']);
-    Route::put('/places/{place}', [PlaceController::class, 'update']);
-    Route::delete('/places/{place}', [PlaceController::class, 'destroy']);
-
-    // Category
-    Route::post('/categories', [CategoryController::class, 'store']);
-    Route::put('/categories/{category}', [CategoryController::class, 'update']);
-    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
-
-    // Admin deletes any review and notifies user
-    Route::delete('/admin/reviews/{review}', [ReviewController::class, 'destroyByAdmin']);
-
-    Route::get('/admin', function () {
-        return response()->json([
-            'message' => 'hi admin'
-        ]);
-    });
-});
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
