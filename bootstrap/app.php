@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\EnsureEmailIsVerifiedAPI;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'auth' => Authenticate::class,
+            'verified.api' => EnsureEmailIsVerifiedAPI::class,
         ]);;
     })
     ->withExceptions(function (Exceptions $exceptions): void {

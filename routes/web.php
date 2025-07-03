@@ -9,8 +9,6 @@ use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
-<<<<<<< HEAD
-=======
 Route::get('/', function () {
     return view('welcome');
 });
@@ -72,4 +70,3 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/{review}/force-delete', [ReviewController::class, 'forceDelete'])->name('forceDelete');
     });
 });
->>>>>>> Admin-CM-from-web
