@@ -10,9 +10,21 @@
 
          <!-- Trash Section -->
          <div class="mt-6 text-sm text-gray-500 px-4 uppercase">Trash</div>
-         <a href="{{ route('admin.places.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Places</a>
-         <a href="{{ route('admin.categories.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Categories</a>
-         <a href="{{ route('admin.reviews.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Reviews</a>
+         <a href="{{ route('admin.places.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed places
+             @if($trashedPlacesCount)
+             <span class="bg-red-500 text-white rounded-full p-1.5 text-xs ml-3">{{$trashedPlacesCount}}</span>
+             @endif
+         </a>
+         <a href="{{ route('admin.categories.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Categories
+             @if($trashedCategoriesCount)
+             <span class="bg-red-500 text-white rounded-full p-1.5 text-xs ml-3">{{$trashedCategoriesCount}}</span>
+             @endif
+         </a>
+         <a href="{{ route('admin.reviews.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Reviews
+             @if($trashedReviewsCount)
+             <span class="bg-red-500 text-white rounded-full p-1.5 text-xs ml-3">{{$trashedReviewsCount}}</span>
+             @endif
+         </a>
 
          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Settings</a>
      </nav>
