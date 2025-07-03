@@ -19,10 +19,10 @@
                 <p class="text-2xl font-bold">{{$numOfCategory}}</p>
             </div>
 
-            <div class="p-4 bg-yellow-100 rounded shadow">
+            <a href="{{route('admin.reviews.index').'?status=pending'}}" class="p-4 bg-yellow-100 rounded shadow">
                 <h2 class="text-sm text-yellow-600 uppercase font-semibold">Pending Reviews</h2>
-                <p class="text-2xl font-bold">{{$numOfReviews}}</p>
-            </div>
+                <p class="text-2xl font-bold">{{$numOfPendingReviews}}</p>
+            </a>
         </div>
 
         <div class="mb-10">
@@ -42,16 +42,22 @@
 
             <div class="space-y-4">
                 @forelse ($topPlaces as $place)
+                @php
+                $barWidth = min(($place->avg_rating ?? 0) * 20, 100);
+                @endphp
                 <div class="flex items-center">
                     <span class="w-40 truncate font-medium text-gray-700">{{ $place->name }}</span>
                     <div class="flex-1 mx-2 bg-gray-200 h-4 rounded">
-                        <div class="bg-green-500 h-4 rounded" style="width: {{ $place->avg_rating * 20 }}%"></div>
+                        <div class="bg-green-500 h-4 rounded" width="{{$barWidth}}%"></div>
                     </div>
-                    <span class="text-sm text-gray-600">{{ number_format($place->avg_rating, 1) }}/5</span>
+                    <span class="text-sm text-gray-600">
+                        {{ $place->avg_rating ? number_format($place->avg_rating, 1) . '/5' : 'No rating' }}
+                    </span>
                 </div>
                 @empty
                 <p class="text-gray-500">No ratings available yet.</p>
                 @endforelse
+
             </div>
         </div>
     </div>
