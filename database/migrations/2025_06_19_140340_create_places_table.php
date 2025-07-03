@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->unsignedBigInteger('category_id')->nullable(); // e.g. "Nature", "Culture"
             $table->timestamps();
+            $table->softDeletes();
             $table->unique(['name', 'latitude', 'longitude']);
         });
     }

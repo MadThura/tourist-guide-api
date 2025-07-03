@@ -7,6 +7,13 @@
          <a href="{{route('admin.places.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Places</a>
          <a href="{{route('admin.categories.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Categories</a>
          <a href="{{route('admin.reviews.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Reviews</a>
+
+         <!-- Trash Section -->
+         <div class="mt-6 text-sm text-gray-500 px-4 uppercase">Trash</div>
+         <a href="{{ route('admin.places.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Places</a>
+         <a href="{{ route('admin.categories.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Categories</a>
+         <a href="{{ route('admin.reviews.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Reviews</a>
+
          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Settings</a>
      </nav>
      <form method="POST" action="{{route('admin.logout')}}">

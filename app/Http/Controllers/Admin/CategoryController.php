@@ -77,4 +77,32 @@ class CategoryController extends Controller
 
         return redirect()->back()->with('success', 'Category deleted successfully.');
     }
+
+    public function trashed()
+    {
+        return view('admin.category.trash', [
+            'categories' => Category::onlyTrashed()->get()
+        ]);
+    }
+
+    public function restore($id)
+    {
+
+        $category = Category::withTrashed()->findOrFail($id);
+
+        $category->restore();
+
+        return back()->with('success', 'Category restored.');
+    }
+
+    public function forceDelete($id)
+    {
+
+        $category = Category::withTrashed()->findOrFail($id);
+
+        $category->forceDelete();
+
+
+        return back()->with('success', 'Category permanently deleted.');
+    }
 }

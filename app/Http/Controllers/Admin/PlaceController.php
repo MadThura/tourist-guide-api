@@ -194,12 +194,49 @@ class PlaceController extends Controller
         return back()->with('success', 'Image deleted.');
     }
 
-
     public function destroy(Place $place)
     {
 
         $place->delete();
 
         return redirect()->back()->with('success', 'Place deleted successfully.');
+    }
+
+    public function trashed()
+    {
+        return view('admin.places.trash', [
+            'places' => Place::onlyTrashed()->get()
+        ]);
+    }
+
+    public function restore($id)
+    {
+
+        $place = Place::withTrashed()->findOrFail($id);
+
+        $place->restore();
+
+        return back()->with('success', 'Place restored.');
+    }
+
+    public function forceDelete($id)
+    {
+
+        $place = Place::withTrashed()->findOrFail($id);
+
+        $place->forceDelete();
+
+        if ($place->image) {
+            Storage::disk('public')->delete($place->image);
+        }
+
+        if ($place->images()) {
+            foreach ($place->images as $image) {
+                Storage::disk('public')->delete($image->path);
+                $image->delete(); // remove record from DB
+            }
+        }
+
+        return back()->with('success', 'Place permanently deleted.');
     }
 }

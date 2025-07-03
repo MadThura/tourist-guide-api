@@ -37,10 +37,38 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
 
-        Mail::to($review->user->email)->send(new ReviewRemovedMail($review));
+        // Mail::to($review->user->email)->send(new ReviewRemovedMail($review));
 
         $review->delete();
 
         return redirect()->back()->with('success', 'Reviews deleted successfully');
+    }
+
+    public function trashed()
+    {
+        return view('admin.review.trash', [
+            'reviews' => Review::onlyTrashed()->get()
+        ]);
+    }
+
+    public function restore($id)
+    {
+
+        $review = Review::withTrashed()->findOrFail($id);
+
+        $review->restore();
+
+        return back()->with('success', 'Review restored.');
+    }
+
+    public function forceDelete($id)
+    {
+
+        $review = Review::withTrashed()->findOrFail($id);
+
+        $review->forceDelete();
+
+
+        return back()->with('success', 'Review permanently deleted.');
     }
 }

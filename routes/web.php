@@ -37,6 +37,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/{place}/edit', [PlaceController::class, 'edit'])->name('edit');
         Route::put('/{place}', [PlaceController::class, 'update'])->name('update');
         Route::delete('/{place}', [PlaceController::class, 'destroy'])->name('destroy');
+        Route::get('/trashed', [PlaceController::class, 'trashed'])->name('trashed');
+        Route::patch('/{place}/restore', [PlaceController::class, 'restore'])->name('restore');
+        Route::delete('/{place}/force-delete', [PlaceController::class, 'forceDelete'])->name('forceDelete');
 
         //images delete
         Route::delete('/{place}/image', [PlaceController::class, 'destroyMainImage'])->name('image.destroy');
@@ -50,6 +53,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+
+        Route::get('/trashed', [CategoryController::class, 'trashed'])->name('trashed');
+        Route::patch('/{category}/restore', [CategoryController::class, 'restore'])->name('restore');
+        Route::delete('/{category}/force-delete', [CategoryController::class, 'forceDelete'])->name('forceDelete');
     });
 
     Route::prefix('/reviews')->name('reviews.')->group(function () {
@@ -57,5 +64,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::patch('/{review}/approve', [ReviewController::class, 'approve'])->name('approve');
         Route::patch('/{review}/reject', [ReviewController::class, 'reject'])->name('reject');
         Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
+
+        Route::get('/trashed', [ReviewController::class, 'trashed'])->name('trashed');
+        Route::patch('/{review}/restore', [ReviewController::class, 'restore'])->name('restore');
+        Route::delete('/{review}/force-delete', [ReviewController::class, 'forceDelete'])->name('forceDelete');
     });
 });
