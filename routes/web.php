@@ -54,6 +54,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::prefix('/reviews')->name('reviews.')->group(function () {
         Route::get('/', [ReviewController::class, 'index'])->name('index');
+        Route::patch('/{review}/approve', [ReviewController::class, 'approve'])->name('approve');
+        Route::patch('/{review}/reject', [ReviewController::class, 'reject'])->name('reject');
         Route::delete('/{review}', [ReviewController::class, 'destroy'])->name('destroy');
     });
 });

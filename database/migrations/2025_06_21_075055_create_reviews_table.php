@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('place_id')->constrained()->onDelete('cascade');
             $table->enum('rating', ['good', 'bad']);
             $table->text('comment')->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
             $table->unique(['user_id', 'place_id']);
         });
