@@ -2,14 +2,33 @@
  <aside class="w-64 bg-white shadow-md p-4 flex flex-col">
      <div class="text-2xl font-bold mb-6">Tourist Guide</div>
      <nav class="flex-1 space-y-2">
-         <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Dashboard</a>
-         <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Users</a>
-         <a href="/admin/places" class="block py-2 px-4 rounded hover:bg-gray-200">Places</a>
-         <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Categories</a>
-         <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Reviews</a>
+         <a href="{{route('admin.dashboard')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Dashboard</a>
+         <a href="{{route('admin.users.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Users</a>
+         <a href="{{route('admin.places.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Places</a>
+         <a href="{{route('admin.categories.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Categories</a>
+         <a href="{{route('admin.reviews.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200">Reviews</a>
+
+         <!-- Trash Section -->
+         <div class="mt-6 text-sm text-gray-500 px-4 uppercase">Trash</div>
+         <a href="{{ route('admin.places.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed places
+             @if($trashedPlacesCount)
+             <span class="bg-red-500 text-white rounded-full p-1.5 text-xs ml-3">{{$trashedPlacesCount}}</span>
+             @endif
+         </a>
+         <a href="{{ route('admin.categories.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Categories
+             @if($trashedCategoriesCount)
+             <span class="bg-red-500 text-white rounded-full p-1.5 text-xs ml-3">{{$trashedCategoriesCount}}</span>
+             @endif
+         </a>
+         <a href="{{ route('admin.reviews.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200">Trashed Reviews
+             @if($trashedReviewsCount)
+             <span class="bg-red-500 text-white rounded-full p-1.5 text-xs ml-3">{{$trashedReviewsCount}}</span>
+             @endif
+         </a>
+
          <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200">Settings</a>
      </nav>
-     <form method="POST" action="">
+     <form method="POST" action="{{route('admin.logout')}}">
          @csrf
          <button type="submit" class="py-2 px-4 w-full bg-red-500 text-white rounded mt-4 hover:bg-red-600">
              Logout

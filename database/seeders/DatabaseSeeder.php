@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Place;
 use App\Models\Review;
 use App\Models\User;
@@ -42,5 +43,6 @@ class DatabaseSeeder extends Seeder
         Place::factory(20)->create();
         Category::factory(10)->create();
         Review::factory(20)->create();
+        Image::factory(20)->create();
     }
 }

@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Place extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'location', 'latitude', 'longitude', 'category_id'];
+    protected $fillable = ['name', 'description', 'location', 'latitude', 'longitude', 'image', 'category_id'];
 
     public function images()
     {
@@ -36,7 +37,7 @@ class Place extends Model
         if ($search = $filters['search'] ?? null) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'LIKE', '%' . $search . '%')
-                ->orWhere('location', 'LIKE', '%' . $search . '%');
+                    ->orWhere('location', 'LIKE', '%' . $search . '%');
             });
         }
         if ($category = $filters['category'] ?? null) {
@@ -45,7 +46,7 @@ class Place extends Model
             });
         }
 
-        if(($filters['sort'] ?? null) === 'latest') {
+        if (($filters['sort'] ?? null) === 'latest') {
             $query->latest();
         }
 

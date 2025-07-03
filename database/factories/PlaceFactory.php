@@ -22,6 +22,7 @@ class PlaceFactory extends Factory
             'location' => fake()->unique()->word(),
             'latitude' => fake()->unique()->latitude(),
             'longitude' => fake()->unique()->longitude(),
+            'image' => 'places/zx3J7z22FF8DhDlaQgBqEm76JeQ1jxRh2ubOeFiP.jpg',
             'category_id' => random_int(1, 10)
         ];
     }
