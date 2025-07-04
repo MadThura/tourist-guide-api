@@ -21,7 +21,23 @@ class ReviewController extends Controller
 
     public function store(Request $request, Place $place)
     {
+        $user = $request->user('sanctum');
+
+        // Check for existing review
+        $existingReview = $place->reviews()
+            ->where('user_id', $user->id)
+            ->first();
+
+        if ($existingReview) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'You have already reviewed this place.'
+            ], 409); // Conflict
+        }
+
         $validator = Validator::make($request->all(), [
+            'user_id' => ['unique:id'],
+            'place_id' => ['unique:id'],
             'rating' => ['required', Rule::in(['good', 'bad'])],
             'comment' => ['nullable', 'max:1000'],
         ]);
@@ -34,7 +50,7 @@ class ReviewController extends Controller
         }
 
         $review = $place->reviews()->create([
-            'user_id' => $request->user()->id,
+            'user_id' => $request->user('sanctum')->id,
             'rating' => $request->rating,
             'comment' => $request->comment,
         ]);
@@ -48,7 +64,7 @@ class ReviewController extends Controller
 
     public function update(Request $request, Review $review)
     {
-        $user = $request->user();
+        $user = $request->user('sanctum');
 
         if ($user->id !== $review->user_id) {
             return response()->json([
@@ -80,7 +96,7 @@ class ReviewController extends Controller
 
     public function destroy(Request $request, Review $review)
     {
-        $user = $request->user();
+        $user = $request->user('sanctum');
         if ($user->id !== $review->user_id) {
             return response()->json([
                 'message' => 'Unauthorized'

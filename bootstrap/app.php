@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => AdminMiddleware::class,
             'auth' => Authenticate::class,
             'verified.api' => EnsureEmailIsVerifiedAPI::class,
-        ]);;
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
 

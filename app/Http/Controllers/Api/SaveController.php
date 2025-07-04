@@ -10,8 +10,7 @@ class SaveController extends Controller
 {
     public function handleSavingPlaces(Request $request, Place $place)
     {
-        $user = $request->user();
-
+        $user = $request->user('sanctum');
         if ($user->isSaved($place)) {
             $user->savedPlaces()->detach($place->id);
             $message = 'Unsaved from place';
