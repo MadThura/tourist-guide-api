@@ -19,6 +19,7 @@ Route::post('/email/resend', [EmailVerificationController::class, 'resend'])
 
 
 Route::get('/places', [PlaceController::class, 'index']);
+Route::get('/places/{place}', [PlaceController::class, 'show']);
 Route::get('/places/{place}/reviews', [ReviewController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 

@@ -26,25 +26,26 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
 
         $exceptions->render(function (NotFoundHttpException | ModelNotFoundException $e, $request) {
-            if ($request->expectsJson()) {
+            if ($request->is('api/*')) {
                 return response()->json([
                     'status' => 'fail',
                     'message' => 'Resource not found.'
                 ], 404);
             }
-            // For web requests, fallback to normal error page (like resources/views/errors/404.blade.php)
+
+            // Let Laravel handle it by falling back to default 404 error view
             return null;
         });
 
-        // Optional: catch all unhandled exceptions for JSON-only projects
+        // Optional: catch all other exceptions
         $exceptions->render(function (Throwable $e, $request) {
-            if ($request->expectsJson()) {
+            if ($request->is('api/*')) {
                 return response()->json([
                     'status' => 'error',
                     'message' => $e->getMessage()
                 ], 500);
             }
 
-            return null; // fallback to default if not JSON
+            return null; // fallback to Laravel default error handling
         });
     })->create();

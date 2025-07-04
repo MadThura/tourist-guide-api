@@ -20,6 +20,18 @@ class PlaceController extends Controller
         ]);
     }
 
+    public function show(Place $place)
+    {
+        $category = $place->category->id;
+        $relatedPlaces = Place::where('category_id', $category)->limit(3)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $place,
+            'relatedPlaces' => $relatedPlaces
+        ]);
+    }
+
     public function getSavedPlaces(Request $request, User $user)
     {
         if ($request->user->id !== $user->id) {
