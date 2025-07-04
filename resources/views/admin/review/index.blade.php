@@ -53,14 +53,18 @@
                 <td class="p-3">{{ $review->user->name }}</td>
                 <td class="p-3">{{ $review->place->name }}</td>
                 <td class="p-3">{{ $review->rating }}</td>
-                <td class="p-3">{{ $review->comment }}</td>
+                <td class="relative group p-3">{{ substr($review->comment, 0, 60).' .......' }}
+                    <div class="absolute z-10 hidden group-hover:block w-64 bg-white text-black border border-gray-300 p-2 rounded shadow-lg top-0 right-5 mt-1">
+                        {{ $review->comment }}
+                    </div>
+                </td>
                 <td class="p-3">
                     <span class="text-xs px-2 py-1 rounded 
         {{ $review->status == 'pending' ? 'bg-yellow-100 text-yellow-800' : ($review->status == 'approved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
                         {{ ucfirst($review->status) }}
                     </span>
                 </td>
-                <td class="px-4 py-6 space-x-4 flex justify-center">
+                <td class="px-4 py-5 space-x-4 flex justify-center">
                     @if ($review->status === 'pending' || $review->status === 'rejected')
                     <form method="POST" action="{{route('admin.reviews.approve', $review)}}" class="inline">
                         @csrf @method('PATCH')
@@ -76,7 +80,7 @@
                     <form action="{{route('admin.reviews.destroy', $review)}}" method="POST" class="inline-block"
                         onsubmit="return confirm('Delete this review?')">
                         @csrf @method('DELETE')
-                        <button class="text-red-500">Delete</button>
+                        <button class="text-red-500 cursor-pointer">Delete</button>
                     </form>
                 </td>
             </tr>
