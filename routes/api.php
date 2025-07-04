@@ -22,15 +22,12 @@ Route::get('/places', [PlaceController::class, 'index']);
 Route::get('/places/{place}/reviews', [ReviewController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 
-Route::middleware('auth:sanctum', 'verified')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('/places/{place}/handle-save', [SaveController::class, 'handleSavingPlaces']);
 
     // User view saved places
     Route::get('/{user}/saved-places', [PlaceController::class, 'getSavedPlaces']);
-<<<<<<< HEAD
-=======
 
->>>>>>> Admin-CM-from-web
     // Review
     Route::post('/places/{place}/reviews', [ReviewController::class, 'store']);
     Route::put('/reviews/{review}', [ReviewController::class, 'update']);

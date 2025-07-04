@@ -33,7 +33,7 @@ class UserController extends Controller
             'role' => 'user'
         ]);
 
-        event(new Registered($user));
+        // event(new Registered($user));
         $token = $user->createToken('user-token')->plainTextToken;
 
         return response()->json([

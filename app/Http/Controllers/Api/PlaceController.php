@@ -22,7 +22,7 @@ class PlaceController extends Controller
 
     public function getSavedPlaces(Request $request, User $user)
     {
-        if ($request->user()->id !== $user->id) {
+        if ($request->user->id !== $user->id) {
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Unauthorized'
