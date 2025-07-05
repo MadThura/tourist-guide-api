@@ -31,7 +31,7 @@
     </form>
 
     <table class="w-full table-auto bg-white rounded shadow">
-        <thead class="bg-gray-100">
+        <thead class="bg-gray-100 text-xs uppercase text-gray-700">
             <tr>
                 <th class="p-3 text-left">No.</th>
                 <th class="p-3 text-left">Main Image</th>

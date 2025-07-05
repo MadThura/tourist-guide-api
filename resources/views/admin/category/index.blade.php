@@ -12,7 +12,7 @@
     </form>
 
     <table class="w-full table-auto bg-white rounded shadow">
-        <thead class="bg-gray-100">
+        <thead class="bg-gray-100 text-xs uppercase text-gray-700">
             <tr>
                 <th class="p-3 text-left">No.</th>
                 <th class="p-3 text-left">Name</th>
@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             @forelse($categories as $category)
-            <tr class="border-t">
+            <tr class="border-t border-gray-300">
                 <td class="p-3">{{ $category->id }}</td>
                 <td class="p-3">{{ $category->name }}</td>
                 <td class="p-3 space-x-2">

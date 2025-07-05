@@ -24,6 +24,9 @@
         <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600">
             Filter
         </button>
+        <a href="{{ route('admin.users.index') }}" class="bg-gray-300 text-gray-700 px-5 py-2 rounded hover:bg-gray-400">
+            Clear
+        </a>
     </form>
 
     <div class="overflow-x-auto bg-white shadow-md rounded-lg">

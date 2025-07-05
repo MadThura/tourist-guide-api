@@ -35,7 +35,7 @@
     </form>
 
     <table class="w-full table-auto bg-white rounded shadow">
-        <thead class="bg-gray-100">
+        <thead class="bg-gray-100 text-xs uppercase text-gray-700">
             <tr>
                 <th class="p-3 text-left">No.</th>
                 <th class="p-3 text-left">User name</th>
@@ -48,7 +48,7 @@
         </thead>
         <tbody>
             @forelse($reviews as $review)
-            <tr class="border-t">
+            <tr class="border-t border-gray-300">
                 <td class="p-3">{{ $review->id }}</td>
                 <td class="p-3">{{ $review->user->name }}</td>
                 <td class="p-3">{{ $review->place->name }}</td>
