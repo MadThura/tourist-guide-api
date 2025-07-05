@@ -7,7 +7,7 @@
     <form method="GET" action="/admin/places" class="flex flex-wrap gap-2 mb-4">
         <input type="text" name="search" value="{{ request('search') }}"
             placeholder="Search name..."
-            class="p-2 border rounded w-full md:w-auto flex-1" />
+            class="p-2 border border-gray-300 rounded w-full md:w-auto flex-1" />
         <button type="submit" class="bg-gray-700 text-white px-4 py-2 rounded">Filter</button>
     </form>
 
