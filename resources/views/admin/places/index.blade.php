@@ -33,7 +33,6 @@
     <table class="w-full table-auto bg-white rounded shadow">
         <thead class="bg-gray-100 text-xs uppercase text-gray-700">
             <tr>
-                <th class="p-3 text-left">No.</th>
                 <th class="p-3 text-left">Main Image</th>
                 <th class="p-3 text-left">Name</th>
                 <th class="p-3 text-left">Description</th>
@@ -47,9 +46,8 @@
         <tbody>
             @forelse($places as $place)
             <tr class="border-t border-gray-300">
-                <td class="p-3">{{ $place->id }}</td>
                 <td class="p-3">
-                    <img src="{{ asset('storage/' . $place->image) }}" alt="Main Image" class="max-h-200 rounded shadow">
+                    <img src="{{ asset('storage/' . $place->image) }}" alt="Main Image" class="max-h-100 rounded shadow">
                 </td>
                 <td class="p-3">{{ $place->name }}</td>
                 <td class="relative group p-3">{{ strlen($place->description) > 100 ? substr($place->description, 0, 100) . '...' : $place->description }}
