@@ -43,7 +43,16 @@
             <tbody class="divide-y divide-gray-200">
                 @forelse ($users as $user)
                 <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-3">{{ $user->name }}</td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full overflow-hidden border border-gray-300 shadow-sm">
+                                <img src="{{ asset('storage/' . $user->profile_img) }}" alt="Profile Image" class="w-full h-full object-cover">
+                            </div>
+                            <div class="text-sm text-gray-800 font-medium">
+                                {{ $user->name }}
+                            </div>
+                        </div>
+                    </td>
                     <td class="px-4 py-3">{{ $user->email }}</td>
                     <td class="px-4 py-3">
                         <form method="POST" action="{{ route('admin.users.changeRole', $user) }}">
