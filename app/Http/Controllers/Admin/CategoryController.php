@@ -52,7 +52,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:20', Rule::exists('categories', 'name')]
+            'name' => ['required', 'string', 'max:20', Rule::unique('categories', 'name')]
         ]);
 
         $duplicate = Category::where('name', $request->name)
