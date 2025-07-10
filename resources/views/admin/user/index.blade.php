@@ -74,7 +74,7 @@
                         </span>
                     </td>
                     <td class="px-4 py-3 text-center">
-                        <form method="POST" action="{{ route('admin.users.toogle', $user) }}">
+                        <form method="POST" action="{{ route('admin.users.toggle', $user) }}">
                             @csrf
                             @method('PATCH')
                             <button class="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded text-xs">
