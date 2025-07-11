@@ -65,23 +65,33 @@
                     </span>
                 </td>
                 <td class="px-4 py-5 space-x-4 flex justify-center">
-                    @if ($review->status === 'pending' || $review->status === 'rejected')
+                    @if ($review->status === 'pending')
                     <form method="POST" action="{{route('admin.reviews.approve', $review)}}" class="inline">
                         @csrf @method('PATCH')
                         <button class="bg-green-500 text-white px-3 py-1 rounded text-xs cursor-pointer">Approve</button>
                     </form>
-                    @else
                     <form method="POST" action="{{route('admin.reviews.reject', $review)}}" class="inline">
                         @csrf @method('PATCH')
                         <button class="bg-red-500 text-white px-3 py-1 rounded text-xs cursor-pointer"
                             onclick="return confirm('Reject this review?')">Reject</button>
                     </form>
-                    @endif
+                    @elseif ($review->status === 'approved')
+                    <form method="POST" action="{{route('admin.reviews.reject', $review)}}" class="inline">
+                        @csrf @method('PATCH')
+                        <button class="bg-red-500 text-white px-3 py-1 rounded text-xs cursor-pointer"
+                            onclick="return confirm('Reject this review?')">Reject</button>
+                    </form>
+                    @else
+                    <form method="POST" action="{{route('admin.reviews.approve', $review)}}" class="inline">
+                        @csrf @method('PATCH')
+                        <button class="bg-green-500 text-white px-3 py-1 rounded text-xs cursor-pointer">Approve</button>
+                    </form>
                     <form action="{{route('admin.reviews.destroy', $review)}}" method="POST" class="inline-block"
                         onsubmit="return confirm('Delete this review?')">
                         @csrf @method('DELETE')
                         <button class="text-red-500 cursor-pointer">Delete</button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @empty

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\ReviewRemovedMail;
+use App\Mail\ReviewRejectedMail;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -30,14 +30,15 @@ class ReviewController extends Controller
     {
         $review->status = 'rejected';
         $review->save();
-        return back()->with('success', 'Review rejected.');
+
+        Mail::to($review->user->email)->send(new ReviewRejectedMail($review));
+
+        return back()->with('success', 'Review rejected and user notified.');
     }
 
 
     public function destroy(Review $review)
     {
-
-        // Mail::to($review->user->email)->send(new ReviewRemovedMail($review));
 
         $review->delete();
 
@@ -67,7 +68,6 @@ class ReviewController extends Controller
         $review = Review::withTrashed()->findOrFail($id);
 
         $review->forceDelete();
-
 
         return back()->with('success', 'Review permanently deleted.');
     }
