@@ -1,6 +1,6 @@
  <!-- Sidebar -->
  <aside class="w-64 bg-white shadow-md p-4 flex flex-col">
-     <div class="text-2xl font-bold mb-6">Tourist Guide</div>
+     <div class="text-2xl font-bold mb-6">{{$globalSetting->app_name}}</div>
      <nav class="flex-1 space-y-2">
          <a href="{{route('admin.dashboard')}}" class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200' : '' }}">Dashboard</a>
          <a href="{{route('admin.users.index')}}" class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('admin.users.index') ? 'bg-gray-200' : '' }}">Users</a>
@@ -10,8 +10,6 @@
              class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('admin.reviews.index') ? 'bg-gray-200' : '' }}">
              Reviews
          </a>
-
-
          <!-- Trash Section -->
          <div class="mt-6 text-sm text-gray-500 px-4 uppercase">Trash</div>
          <a href="{{ route('admin.places.trashed') }}" class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('admin.places.trashed') ? 'bg-gray-200' : '' }}">Trashed places
@@ -30,7 +28,7 @@
              @endif
          </a>
 
-         <a href="#" class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('admin.setting') ? 'bg-gray-200' : '' }}">Settings</a>
+         <a href="{{ route('admin.settings.edit') }}" class="block py-2 px-4 rounded hover:bg-gray-200 {{ request()->routeIs('admin.settings.edit') ? 'bg-gray-200' : '' }}">Settings</a>
      </nav>
      <form method="POST" action="{{route('admin.logout')}}">
          @csrf

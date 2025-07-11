@@ -7,16 +7,26 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="flex h-screen bg-gray-100">
+<body class="flex flex-col h-screen bg-gray-100">
 
-    <x-sidebar />
-    <x-alert />
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <x-sidebar />
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6 overflow-y-auto">
-        {{$slot}}
-    </main>
+        <!-- Main Area -->
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            <!-- Alert or Notifications -->
+            <x-alert />
+
+            <!-- Main Content -->
+            <main class="flex-1 p-6">
+                {{ $slot }}
+            </main>
+
+            <!-- Footer -->
+            <x-footer />
+        </div>
+    </div>
 
 </body>
-
 </html>

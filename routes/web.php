@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
@@ -7,10 +7,11 @@ use App\Http\Controllers\Admin\{
     UserController,
     PlaceController,
     CategoryController,
-    ReviewController
+    ReviewController,
+    SettingController
 };
 
-Route::get('/', fn () => view('welcome'));
+Route::get('/', fn() => view('welcome'));
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Auth routes
@@ -24,10 +25,17 @@ Route::middleware(['web', 'auth', 'role:admin,moderator'])->prefix('admin')->nam
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Admin-only: Users
-    Route::middleware('role:admin')->prefix('users')->name('users.')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::patch('/{user}/changeRole', [UserController::class, 'changeRole'])->name('changeRole');
-        Route::patch('/{user}/toggle', [UserController::class, 'toggleStatus'])->name('toggle');
+    Route::middleware('role:admin')->group(function () {
+        Route::prefix('/users')->name('users.')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::patch('/{user}/changeRole', [UserController::class, 'changeRole'])->name('changeRole');
+            Route::patch('/{user}/toggle', [UserController::class, 'toggleStatus'])->name('toggle');
+        });
+
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/', [SettingController::class, 'edit'])->name('edit');
+            Route::put('/update', [SettingController::class, 'update'])->name('update');
+        });
     });
 
     // Shared (admin + moderator)
