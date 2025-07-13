@@ -1,22 +1,24 @@
 <x-layout>
-    <div class="max-w-4xl mx-auto p-6 bg-white shadow rounded">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800">Trashed Categories</h1>
+    <div class="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 shadow rounded">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Trashed Categories</h1>
 
         @if ($categories->count())
         <div class="overflow-x-auto">
-            <table class="min-w-full table-auto text-sm text-left text-gray-700">
-                <thead class="bg-gray-100 uppercase text-xs">
+            <table class="min-w-full table-auto text-sm text-left text-gray-700 dark:text-gray-200">
+                <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs">
                     <tr>
                         <th class="px-4 py-3">Name</th>
                         <th class="px-4 py-3">Deleted At</th>
                         <th class="px-4 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
                     @foreach ($categories as $category)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td class="px-4 py-2">{{ $category->name }}</td>
-                        <td class="px-4 py-2 text-sm text-gray-500">{{ $category->deleted_at->diffForHumans() }}</td>
+                        <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+                            {{ $category->deleted_at->diffForHumans() }}
+                        </td>
                         <td class="px-4 py-2 text-center space-x-2">
                             <form method="POST" action="{{ route('admin.categories.restore', $category->id) }}" class="inline">
                                 @csrf
@@ -39,7 +41,7 @@
             </table>
         </div>
         @else
-        <p class="text-gray-500">No trashed categories found.</p>
+        <p class="text-gray-500 dark:text-gray-400">No trashed categories found.</p>
         @endif
     </div>
 </x-layout>

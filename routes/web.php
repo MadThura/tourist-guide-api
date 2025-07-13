@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
+    AdminContoller,
     AuthController,
     DashboardController,
     UserController,
@@ -83,4 +84,6 @@ Route::middleware(['web', 'auth', 'role:admin,moderator'])->prefix('admin')->nam
         Route::patch('/{review}/restore', [ReviewController::class, 'restore'])->name('restore');
         Route::delete('/{review}/force-delete', [ReviewController::class, 'forceDelete'])->name('forceDelete');
     });
+
+    Route::post('/toggle-darkmode', [AdminContoller::class, 'toggleDarkMode'])->name('toggle.darkmode');
 });

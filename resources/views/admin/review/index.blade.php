@@ -1,20 +1,21 @@
 <x-layout>
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">Reviews</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Reviews</h1>
     </div>
+
     <!-- Filter & Search -->
     <form method="GET" action="{{ route('admin.reviews.index') }}" class="mb-4 flex flex-col md:flex-row items-start md:items-center gap-4">
         <input type="text" name="search" value="{{ request('search') }}"
             placeholder="Search by User name or place"
-            class="border border-gray-300 rounded px-3 py-2 w-full md:w-1/3">
+            class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/3 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
-        <select name="rating" class="border border-gray-300 rounded px-3 py-2 w-full md:w-1/4">
+        <select name="rating" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
             <option value="">All rating</option>
             <option value="good" {{ request('rating') === 'good' ? 'selected' : '' }}>Good</option>
             <option value="bad" {{ request('rating') === 'bad' ? 'selected' : '' }}>Bad</option>
         </select>
 
-        <select name="status" class="border border-gray-300 rounded px-3 py-2 w-full md:w-1/4">
+        <select name="status" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
             <option value="">All status</option>
             @foreach (['pending', 'approved', 'rejected'] as $status)
             <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
@@ -24,18 +25,18 @@
         </select>
 
         <div class="flex gap-2">
-            <button type="submit" class="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded">
                 Filter
             </button>
 
-            <a href="{{ route('admin.reviews.index') }}" class="bg-gray-300 text-gray-700 px-5 py-2 rounded hover:bg-gray-400">
+            <a href="{{ route('admin.reviews.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-5 py-2 rounded dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
                 Clear
             </a>
         </div>
     </form>
 
-    <table class="w-full table-auto bg-white rounded shadow">
-        <thead class="bg-gray-100 text-xs uppercase text-gray-700">
+    <table class="w-full table-auto bg-white dark:bg-gray-800 rounded shadow">
+        <thead class="bg-gray-100 dark:bg-gray-700 text-xs uppercase text-gray-700 dark:text-gray-300">
             <tr>
                 <th class="p-3 text-left">No.</th>
                 <th class="p-3 text-left">User name</th>
@@ -48,19 +49,24 @@
         </thead>
         <tbody>
             @forelse($reviews as $review)
-            <tr class="border-t border-gray-300">
-                <td class="p-3">{{ $review->id }}</td>
-                <td class="p-3">{{ $review->user->name }}</td>
-                <td class="p-3">{{ $review->place->name }}</td>
-                <td class="p-3">{{ $review->rating }}</td>
-                <td class="relative group p-3">{{ substr($review->comment, 0, 60).' .......' }}
-                    <div class="absolute z-10 hidden group-hover:block w-64 bg-white text-black border border-gray-300 p-2 rounded shadow-lg top-0 right-5 mt-1">
+            <tr class="border-t border-gray-300 dark:border-gray-600">
+                <td class="p-3 text-gray-900 dark:text-gray-100">{{ $review->id }}</td>
+                <td class="p-3 text-gray-900 dark:text-gray-100">{{ $review->user->name }}</td>
+                <td class="p-3 text-gray-900 dark:text-gray-100">{{ $review->place->name }}</td>
+                <td class="p-3 text-gray-900 dark:text-gray-100">{{ $review->rating }}</td>
+                <td class="relative group p-3 text-gray-900 dark:text-gray-100">
+                    {{ strlen($review->comment) > 60 ? substr($review->comment, 0, 60) . ' .......' : $review->comment }}
+                    @if(strlen($review->comment) > 60)
+                    <div class="absolute z-10 hidden group-hover:block w-64 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-600 p-2 rounded shadow-lg top-0 right-5 mt-1">
                         {{ $review->comment }}
                     </div>
+                    @endif
                 </td>
                 <td class="p-3">
-                    <span class="text-xs px-2 py-1 rounded 
-        {{ $review->status == 'pending' ? 'bg-yellow-100 text-yellow-800' : ($review->status == 'approved' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800') }}">
+                    <span class="text-xs px-2 py-1 rounded
+                        {{ $review->status == 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100' : '' }}
+                        {{ $review->status == 'approved' ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' : '' }}
+                        {{ $review->status == 'rejected' ? 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100' : '' }}">
                         {{ ucfirst($review->status) }}
                     </span>
                 </td>
@@ -68,34 +74,34 @@
                     @if ($review->status === 'pending')
                     <form method="POST" action="{{route('admin.reviews.approve', $review)}}" class="inline">
                         @csrf @method('PATCH')
-                        <button class="bg-green-500 text-white px-3 py-1 rounded text-xs cursor-pointer">Approve</button>
+                        <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs cursor-pointer">Approve</button>
                     </form>
                     <form method="POST" action="{{route('admin.reviews.reject', $review)}}" class="inline">
                         @csrf @method('PATCH')
-                        <button class="bg-red-500 text-white px-3 py-1 rounded text-xs cursor-pointer"
+                        <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs cursor-pointer"
                             onclick="return confirm('Reject this review?')">Reject</button>
                     </form>
                     @elseif ($review->status === 'approved')
                     <form method="POST" action="{{route('admin.reviews.reject', $review)}}" class="inline">
                         @csrf @method('PATCH')
-                        <button class="bg-red-500 text-white px-3 py-1 rounded text-xs cursor-pointer"
+                        <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs cursor-pointer"
                             onclick="return confirm('Reject this review?')">Reject</button>
                     </form>
                     @else
                     <form method="POST" action="{{route('admin.reviews.approve', $review)}}" class="inline">
                         @csrf @method('PATCH')
-                        <button class="bg-green-500 text-white px-3 py-1 rounded text-xs cursor-pointer">Approve</button>
+                        <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs cursor-pointer">Approve</button>
                     </form>
                     <form action="{{route('admin.reviews.destroy', $review)}}" method="POST" class="inline-block"
                         onsubmit="return confirm('Delete this review?')">
                         @csrf @method('DELETE')
-                        <button class="text-red-500 cursor-pointer">Delete</button>
+                        <button class="text-red-500 dark:text-red-400 cursor-pointer">Delete</button>
                     </form>
                     @endif
                 </td>
             </tr>
             @empty
-            <td class="p-3 text-center text-gray-400">No such place!</td>
+            <td class="p-3 text-center text-gray-400 dark:text-gray-500" colspan="7">No reviews found.</td>
             @endforelse
         </tbody>
     </table>

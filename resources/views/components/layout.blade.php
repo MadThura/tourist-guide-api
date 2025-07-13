@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ session('dark_mode', false) ? 'dark' : '' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="flex flex-col h-screen bg-gray-100">
+<body class="flex flex-col h-screen bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
     <div class="flex flex-1 overflow-hidden">
         <!-- Sidebar -->
@@ -29,4 +29,5 @@
     </div>
 
 </body>
+
 </html>

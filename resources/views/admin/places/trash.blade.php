@@ -1,11 +1,11 @@
 <x-layout>
-    <div class="max-w-6xl mx-auto p-6 bg-white shadow rounded">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800">Trashed Places</h1>
+    <div class="max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 shadow rounded">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Trashed Places</h1>
 
         @if ($places->count())
         <div class="overflow-x-auto">
-            <table class="min-w-full table-auto text-sm text-left text-gray-700">
-                <thead class="bg-gray-100 uppercase text-xs">
+            <table class="min-w-full table-auto text-sm text-left text-gray-700 dark:text-gray-300">
+                <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs text-gray-700 dark:text-gray-300">
                     <tr>
                         <th class="px-4 py-3">Name</th>
                         <th class="px-4 py-3">Location</th>
@@ -14,13 +14,13 @@
                         <th class="px-4 py-3 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach ($places as $place)
-                    <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td class="px-4 py-2">{{ $place->name }}</td>
                         <td class="px-4 py-2">{{ $place->location }}</td>
                         <td class="px-4 py-2">{{ $place->category->name ?? '-' }}</td>
-                        <td class="px-4 py-2 text-sm text-gray-500">{{ $place->deleted_at->diffForHumans() }}</td>
+                        <td class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">{{ $place->deleted_at->diffForHumans() }}</td>
                         <td class="px-4 py-2 text-center space-x-2">
                             <form method="POST" action="{{ route('admin.places.restore', $place->id) }}" class="inline">
                                 @csrf
@@ -43,7 +43,7 @@
             </table>
         </div>
         @else
-        <p class="text-gray-500">No trashed places found.</p>
+        <p class="text-gray-500 dark:text-gray-400">No trashed places found.</p>
         @endif
     </div>
 </x-layout>
