@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
+    @if($globalSetting->logo)
+    <link rel="icon" href="{{ asset('storage/' . $globalSetting->logo) }}" type="image/png">
+    @endif
+
     @vite('resources/css/app.css')
 </head>
 

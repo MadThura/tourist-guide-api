@@ -21,7 +21,6 @@
     <table class="w-full table-auto bg-white dark:bg-gray-800 rounded shadow">
         <thead class="bg-gray-100 dark:bg-gray-700 text-xs uppercase text-gray-700 dark:text-gray-300">
             <tr>
-                <th class="p-3 text-left">No.</th>
                 <th class="p-3 text-left">Name</th>
                 <th class="p-3 text-left">Actions</th>
             </tr>
@@ -29,7 +28,6 @@
         <tbody>
             @forelse($categories as $category)
             <tr class="border-t border-gray-300 dark:border-gray-600">
-                <td class="p-3 text-gray-800 dark:text-gray-100">{{ $category->id }}</td>
                 <td class="p-3 text-gray-800 dark:text-gray-100">{{ $category->name }}</td>
                 <td class="p-3 space-x-2">
                     <a href="{{ route('admin.categories.edit', $category) }}" class="text-blue-500 hover:underline">
