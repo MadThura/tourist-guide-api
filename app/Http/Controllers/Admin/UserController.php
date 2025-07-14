@@ -17,6 +17,9 @@ class UserController extends Controller
 
     public function changeRole(Request $request, User $user)
     {
+        if ($request->user()->id === $user->id) {
+            return back()->with('fail', "You can't change role on yourself");
+        }
 
         $request->validate([
             'role' => ['required', 'in:admin,moderator,user']
