@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,11 +16,18 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'min:8']
         ]);
+
+        // Check if user exists and is suspended
+        $user = User::where('email', $credentials['email'])->first();
+        if ($user && !$user->is_active) {
+            return back()->withErrors([
+                'email' => 'Your account has been suspended. Please contact the administrator.'
+            ])->onlyInput('email');
+        }
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();

@@ -54,6 +54,7 @@
                         </div>
                     </td>
                     <td class="px-4 py-3">{{ $user->email }}</td>
+                    @can('changeRole', $user)
                     <td class="px-4 py-3">
                         <form method="POST" action="{{ route('admin.users.changeRole', $user) }}">
                             @csrf
@@ -67,6 +68,17 @@
                             </select>
                         </form>
                     </td>
+                    @else
+                    <td colspan="3" class="px-4 py-3">
+                        @if(auth()->user()->id !== $user->id)
+                        <span class="text-xs text-red-400 block">No permission to make actions on this user.</span>
+                        @else
+                        <span class="text-blue-500 italic">It's you</span>
+                        <span class="text-gray-600 dark:text-gray-300">{{ ucfirst($user->role) }}</span>
+                        @endif
+                    </td>
+                    @endcan
+                    @can('toggleStatus', $user)
                     <td class="px-4 py-3">
                         <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium
                             {{ $user->is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-400' }}">
@@ -82,6 +94,7 @@
                             </button>
                         </form>
                     </td>
+                    @endcan
                 </tr>
                 @empty
                 <tr>

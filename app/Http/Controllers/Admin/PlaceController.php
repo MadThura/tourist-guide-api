@@ -198,6 +198,7 @@ class PlaceController extends Controller
     {
 
         $place->delete();
+        $place->reviews()->delete();
 
         return redirect()->back()->with('success', 'Place deleted successfully.');
     }
@@ -216,6 +217,8 @@ class PlaceController extends Controller
 
         $place->restore();
 
+        $place->reviews()->restore();
+
         return back()->with('success', 'Place restored.');
     }
 
@@ -225,6 +228,7 @@ class PlaceController extends Controller
         $place = Place::withTrashed()->findOrFail($id);
 
         $place->forceDelete();
+        $place->reviews()->forceDelete();
 
         if ($place->image) {
             Storage::disk('public')->delete($place->image);
