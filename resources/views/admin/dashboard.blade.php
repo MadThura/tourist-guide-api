@@ -1,6 +1,6 @@
 <x-layout>
     <div class="max-w-5xl mx-auto p-6 bg-white dark:bg-gray-900 shadow rounded">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Welcome, Admin 👋</h1>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Welcome, {{$displayName}}👋</h1>
         <p class="text-gray-600 dark:text-gray-300 mb-6">Here's a quick overview of what's happening in the system.</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -42,23 +42,30 @@
             <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Top-Rated Places</h3>
 
             <div class="space-y-4">
-                @forelse ($topPlaces as $place)
-                @php
-                $barWidth = min(($place->avg_rating ?? 0) * 20, 100);
-                @endphp
-                <div class="flex items-center">
-                    <span class="w-40 truncate font-medium text-gray-700 dark:text-gray-300">{{ $place->name }}</span>
-                    <div class="flex-1 mx-2 bg-gray-200 dark:bg-gray-700 h-4 rounded overflow-hidden">
-                        <div class="bg-green-500 h-4 rounded" style="width: {{$barWidth}}%;"></div>
+                @forelse($topPlaces as $place)
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 dark:text-white">{{ $place->name }}</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                👍 Good: <span class="font-medium text-green-600">{{ $place->good_count }}</span> |
+                                👎 Bad: <span class="font-medium text-red-500">{{ $place->bad_count }}</span> |
+                                📊 Total: <span class="font-medium">{{ $place->total_count }}</span>
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <span class="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-sm font-semibold px-3 py-1 rounded">
+                                {{ round(($place->good_count / max($place->total_count, 1)) * 100, 1) }}%
+                            </span>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Good Rating</div>
+                        </div>
                     </div>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">
-                        {{ $place->avg_rating ? number_format($place->avg_rating, 1) . '/5' : 'No rating' }}
-                    </span>
                 </div>
                 @empty
                 <p class="text-gray-500 dark:text-gray-400">No ratings available yet.</p>
                 @endforelse
             </div>
         </div>
+
     </div>
 </x-layout>

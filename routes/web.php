@@ -22,11 +22,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['web', 'auth', 'role:admin,moderator'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['web', 'auth', 'role:superadmin,admin,moderator'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Admin-only: Users
-    Route::middleware('role:admin')->group(function () {
+    Route::middleware('role:superadmin,admin')->group(function () {
         Route::prefix('/users')->name('users.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
             Route::patch('/{user}/changeRole', [UserController::class, 'changeRole'])->name('changeRole');

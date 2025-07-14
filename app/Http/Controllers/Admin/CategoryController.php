@@ -73,6 +73,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
+        if ($category->places()->count() > 0) {
+            return redirect()->back()->with('fail', 'Cannot delete this category. It has associated places.');
+        }
+
         $category->delete();
 
         return redirect()->back()->with('success', 'Category deleted successfully.');

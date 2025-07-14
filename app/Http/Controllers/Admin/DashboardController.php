@@ -13,23 +13,26 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $numOfUsers = count(User::all());
-        $numOfPlaces = count(Place::all());
-        $numOfCategory = count(Category::all());
-        $numOfPendingReviews = count(Review::where('status', 'pending')->get());
+        $displayName = ucfirst(auth()->user()->role) . ' ' . auth()->user()->name;
+        $numOfUsers = User::all()->count();
+        $numOfPlaces = Place::all()->count();
+        $numOfCategory = Category::all()->count();
+        $numOfPendingReviews = Review::where('status', 'pending')->get()->count();
 
-        $topPlaces = Place::whereHas('reviews', function ($query) {
-            $query->where('rating', 'good');
-        })
-            ->withAvg(['reviews as avg_rating' => function ($query) {
-                $query->where('rating', 'good');
-            }], 'rating')
-            ->orderByDesc('avg_rating')
-            ->take(5)
-            ->get();
+        $topPlaces = Place::withCount([
+            'reviews as good_count' => fn($q) => $q->where('rating', 'good'),
+            'reviews as bad_count' => fn($q) => $q->where('rating', 'bad'),
+            'reviews as total_count',
+        ])
+            ->get()
+            ->filter(fn($place) => $place->total_count > 0)
+            ->sortByDesc(fn($place) => $place->good_count / $place->total_count)
+            ->take(3)
+            ->values();
 
 
         return view('admin.dashboard', [
+            'displayName' => $displayName,
             'numOfUsers' => $numOfUsers,
             'numOfPlaces' => $numOfPlaces,
             'numOfCategory' => $numOfCategory,

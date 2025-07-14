@@ -21,7 +21,7 @@ class RoleMiddleware
             return redirect(route('admin.login'));
         }
 
-        if (!Auth::check() || !in_array(Auth::user()->role, $roles)) {
+    if (!in_array(Auth::user()->role, $roles)) {
             abort(403);
         }
 

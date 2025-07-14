@@ -23,8 +23,16 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('admin.dashboard')->with('success', 'Welcome back Admin');
+
+            $user = auth()->user();
+            $role = ucfirst($user->role); // Capitalize role
+            $name = $user->name;
+
+            return redirect()
+                ->route('admin.dashboard')
+                ->with('success', "Welcome back {$role} {$name}");
         }
+
 
         return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
     }

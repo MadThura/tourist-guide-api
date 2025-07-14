@@ -17,22 +17,26 @@ class UserController extends Controller
 
     public function changeRole(Request $request, User $user)
     {
-        if ($request->user()->id === $user->id) {
-            return back()->with('fail', "You can't change role on yourself");
-        }
-
         $request->validate([
             'role' => ['required', 'in:admin,moderator,user']
         ]);
 
+        if (!auth()->user()->can('changeRole', $user)) {
+            return back()->with('fail', 'You are not authorized to change this role.');
+        }
+
         $user->role = $request->role;
         $user->save();
 
-        return back()->with('success', 'User role updated.');
+        return back()->with('success', 'User role updated successfully.');
     }
+
 
     public function toggleStatus(User $user)
     {
+        if (!auth()->user()->can('toggleStatus', $user)) {
+            return back()->with('fail', 'You are not authorized to do this action.');
+        }
 
         $user->is_active = !$user->is_active;
         $user->save();
