@@ -16,12 +16,22 @@ class CheckIfActive
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // For web routes
+        if (!request()->is('api/*')) {
+            if (Auth::check() && !Auth::user()->is_active) {
+                Auth::logout();
+                return redirect()->route('admin.login')->withErrors([
+                    'email' => 'Your account has been suspended by a superadmin.',
+                ]);
+            }
+        }
 
-        if (Auth::check() && !Auth::user()->is_active) {
-            Auth::logout();
-            return redirect()->route('admin.login')->withErrors([
-                'email' => 'Your account has been suspended by a superadmin.',
-            ]);
+        // For API routes
+        if (request()->is('api/*') && !$request->user('sanctum')->is_active) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Your account has been suspended.'
+            ], 403);
         }
 
         return $next($request);

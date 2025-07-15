@@ -6,25 +6,21 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Authenticate
+class CheckApiAuthentication
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    protected function redirectTo($request): ?string
-    {
-        // Redirect to admin.login if not authenticated
-        if (! $request->expectsJson()) {
-            return route('admin.login');
-        }
-
-        return null;
-    }
-
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->is('api/*') && auth('sanctum')->guest()) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'You must be logged in to access this resource.'
+            ], 401);
+        }
         return $next($request);
     }
 }
