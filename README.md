@@ -15,7 +15,8 @@ A Laravel-powered RESTful API that allows users to discover and explore popular 
 
 - [Laravel](https://laravel.com/) 11
 - [MySQL](https://www.mysql.com/)
-- [Tailwind CSS](https://tailwindcss.com/) (for admin panel)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Alpine.js](https://alpinejs.dev/)
 
 ##  📦 Installation
 
