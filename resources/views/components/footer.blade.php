@@ -4,7 +4,7 @@
         <div>
             <h2 class="text-2xl font-bold mb-2">{{ $globalSetting->app_name }}</h2>
             <p class="text-sm text-gray-600 dark:text-gray-400">
-                Bringing you closer to your destination.
+                {{ $globalSetting->footer_text }}
             </p>
         </div>
 

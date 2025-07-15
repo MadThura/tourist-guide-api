@@ -129,7 +129,10 @@
 
 
                 <!-- Details -->
-                <p class="mb-2"><strong>Description:</strong> <span x-text="selectedPlace.description"></span></p>
+                <p class="mb-2">
+                    <strong>Description:</strong><br>
+                    <span x-html="selectedPlace.description.replace(/\n/g, '<br>')"></span>
+                </p>
                 <p class="mb-2"><strong>Location:</strong> <span x-text="selectedPlace.location"></span></p>
                 <p class="mb-2"><strong>Latitude:</strong> <span x-text="selectedPlace.latitude"></span></p>
                 <p class="mb-2"><strong>Longitude:</strong> <span x-text="selectedPlace.longitude"></span></p>
