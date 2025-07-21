@@ -54,11 +54,6 @@
                 <td class="p-3 text-gray-900 dark:text-gray-100">{{ $review->rating }}</td>
                 <td class="relative group p-3 text-gray-900 dark:text-gray-100">
                     {{ strlen($review->comment) > 60 ? substr($review->comment, 0, 60) . ' .......' : $review->comment }}
-                    @if(strlen($review->comment) > 60)
-                    <div class="absolute z-10 hidden group-hover:block w-64 bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-600 p-2 rounded shadow-lg top-0 right-5 mt-1">
-                        {{ $review->comment }}
-                    </div>
-                    @endif
                 </td>
                 <td class="p-3">
                     <span class="text-xs px-2 py-1 rounded
