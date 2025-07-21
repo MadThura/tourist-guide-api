@@ -23,7 +23,7 @@ Route::get('/places/{place}', [PlaceController::class, 'show']);
 Route::get('/places/{place}/reviews', [ReviewController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
 
-Route::middleware(['checkapiauth', 'active', 'isUser'])->group(function () {
+Route::middleware(['api.auth', 'active', 'isUser'])->group(function () {
     Route::post('/users/logout', [UserController::class, 'logout']);
 
     Route::post('/places/{place}/handle-save', [SaveController::class, 'handleSavingPlaces']);

@@ -87,6 +87,14 @@
             Settings
         </a>
 
+        <!-- Profile Link -->
+        <a href="{{ route('admin.profile.edit') }}"
+            class="block py-2 px-4 rounded 
+           hover:bg-gray-200 dark:hover:bg-gray-700 
+           {{ request()->routeIs('admin.profile.edit') ? 'bg-gray-200 dark:bg-gray-700' : '' }} mt-4">
+            Profile
+        </a>
+
     </nav>
 
     <!-- Dark Mode Toggle -->
@@ -99,7 +107,7 @@
                hover:opacity-90 w-full transition-colors duration-300">
             @if(session('dark_mode'))
             Disable dark mode
-            @else 
+            @else
             Enable dark mode
             @endif
         </button>

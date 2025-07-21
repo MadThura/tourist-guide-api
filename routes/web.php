@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\{
     ReviewController,
     SettingController
 };
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', fn() => view('welcome'));
 
@@ -21,10 +22,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/register', [AuthController::class, 'register'])->name('register');
 });
 
-Route::middleware(['auth', 'active', 'role:superadmin,admin,moderator'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['web.auth', 'active', 'role:superadmin,admin,moderator'])->prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::prefix('/profile')->name('profile.')->group(function () {
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
+
+        // Route::get('/password', [ProfileController::class, 'editPassword'])->name('password');
+        Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password');
+    });
 
     // Admin-only: Users
     Route::middleware('role:superadmin,admin')->group(function () {

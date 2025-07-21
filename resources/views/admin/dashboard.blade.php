@@ -33,7 +33,7 @@
                 <a href="{{ route('admin.places.index') }}" class="inline-block bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Manage Places</a>
                 <a href="{{ route('admin.categories.index') }}" class="inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Manage Category</a>
                 <a href="{{ route('admin.reviews.index') }}" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">Manage Reviews</a>
-                <a href="#" class="inline-block bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded">Settings</a>
+                <a href="{{route('admin.settings.edit')}}" class="inline-block bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded">Settings</a>
             </div>
         </div>
 

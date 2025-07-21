@@ -4,6 +4,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckApiAuthentication;
 use App\Http\Middleware\CheckIfActive;
+use App\Http\Middleware\CheckWebAuth;
 use App\Http\Middleware\EnsuerUser;
 use App\Http\Middleware\EnsureEmailIsVerifiedAPI;
 use App\Http\Middleware\ModeratorMiddleware;
@@ -25,7 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'active' => CheckIfActive::class,
-            'checkapiauth' => CheckApiAuthentication::class,
+            'web.auth' => CheckWebAuth::class,
+            'api.auth' => CheckApiAuthentication::class,
             'isUser' => EnsuerUser::class,
             'verified.api' => EnsureEmailIsVerifiedAPI::class,
         ]);
