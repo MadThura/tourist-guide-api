@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 shadow rounded">
+    <div class="max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 shadow rounded">
         <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Trashed Categories</h1>
 
         @if ($categories->count())
