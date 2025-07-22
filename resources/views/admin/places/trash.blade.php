@@ -1,10 +1,10 @@
 <x-layout>
     <div class="max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 shadow rounded">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Trashed Places</h1>
+        <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100">Trashed Tourist Spots</h1>
 
         @if ($places->count())
-        <div class="overflow-x-auto">
-            <table class="min-w-full table-auto text-sm text-left text-gray-700 dark:text-gray-300">
+        <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded-lg">
+            <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-300">
                 <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs text-gray-700 dark:text-gray-300">
                     <tr>
                         <th class="px-4 py-3">Name</th>

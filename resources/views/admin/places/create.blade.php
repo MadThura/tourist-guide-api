@@ -1,6 +1,6 @@
 <x-layout>
     <h1 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
-        {{ isset($place) ? "Edit Place" : "Create Place" }}
+        {{ isset($place) ? "Edit Tourist spot" : "Create Tourist spot" }}
     </h1>
 
     <form method="POST"

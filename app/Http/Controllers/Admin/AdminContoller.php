@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AdminContoller extends Controller
 {
-    public function toggleDarkMode(Request $request)
+    public function toggleDarkMode()
     {
         session(['dark_mode' => !session('dark_mode', false)]);
 

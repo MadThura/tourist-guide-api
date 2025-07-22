@@ -3,8 +3,8 @@
         <h1 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Trashed Categories</h1>
 
         @if ($categories->count())
-        <div class="overflow-x-auto">
-            <table class="min-w-full table-auto text-sm text-left text-gray-700 dark:text-gray-200">
+        <div class="overflow-x-auto bg-white dark:bg-gray-900 shadow-md rounded-lg">
+            <table class="min-w-full text-sm text-left text-gray-700 dark:text-gray-300">
                 <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs">
                     <tr>
                         <th class="px-4 py-3">Name</th>

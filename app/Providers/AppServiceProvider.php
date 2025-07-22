@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         // Global setting available in all views
         $setting = Setting::first();
         View::composer('*', function ($view) use ($setting) {
-            $view->with('globalSetting',    $setting);
+            $view->with('globalSetting', $setting);
         });
 
         // Sidebar-specific data

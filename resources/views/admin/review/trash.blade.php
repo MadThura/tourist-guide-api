@@ -8,7 +8,7 @@
                 <thead class="bg-gray-100 dark:bg-gray-700 uppercase text-xs text-gray-700 dark:text-gray-300">
                     <tr>
                         <th class="px-4 py-3">User</th>
-                        <th class="px-4 py-3">Place</th>
+                        <th class="px-4 py-3">Tourist spot</th>
                         <th class="px-4 py-3">Rating</th>
                         <th class="px-4 py-3">Status</th>
                         <th class="px-4 py-3">Deleted At</th>
