@@ -11,7 +11,9 @@ class UserController extends Controller
     public function index()
     {
         return view('admin.user.index', [
-            'users' => User::filter(request(['search', 'role', 'status']))->paginate()
+            'users' => User::filter(request(['search', 'role', 'status']))
+                ->where('id', '!=', auth()->user()->id)
+                ->paginate()
         ]);
     }
 
