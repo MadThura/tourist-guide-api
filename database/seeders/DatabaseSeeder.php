@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Image;
 use App\Models\Place;
 use App\Models\Review;
+use App\Models\Setting;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,6 +20,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+
+        Setting::factory()->create([
+            'app_name' => 'Tourist Guide Api',
+            'contact_email' => 'email@gmail.com',
+            'contact_phone' => '09777888222',
+            'contact_address' => 'Yangon',
+            'footer_text' => 'Footer'
+        ]);
 
         $admin = User::factory()->create([
             'name' => 'admin',

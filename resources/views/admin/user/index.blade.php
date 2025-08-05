@@ -6,7 +6,7 @@
             placeholder="Search by name or email"
             class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/3 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
 
-        <select name="role" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+        <select name="role" onchange="this.form.submit()" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
             <option value="">All Roles</option>
             @foreach (['admin', 'moderator', 'user'] as $role)
             <option value="{{ $role }}" {{ request('role') === $role ? 'selected' : '' }}>
@@ -15,7 +15,7 @@
             @endforeach
         </select>
 
-        <select name="status" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+        <select name="status" onchange="this.form.submit()" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100">
             <option value="">All Status</option>
             <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
             <option value="suspended" {{ request('status') === 'suspended' ? 'selected' : '' }}>Suspended</option>
