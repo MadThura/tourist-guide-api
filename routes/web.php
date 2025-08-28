@@ -11,9 +11,12 @@ use App\Http\Controllers\Admin\{
     ReviewController,
     SettingController
 };
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', fn() => view('welcome'));
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Auth routes
