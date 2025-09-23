@@ -14,13 +14,13 @@
                 placeholder="Search by User name or place"
                 class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/3 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 
-            <select name="rating" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+            <select onchange="this.form.submit()" name="rating" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
                 <option value="">All rating</option>
                 <option value="good" {{ request('rating') === 'good' ? 'selected' : '' }}>Good</option>
                 <option value="bad" {{ request('rating') === 'bad' ? 'selected' : '' }}>Bad</option>
             </select>
 
-            <select name="status" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+            <select onchange="this.form.submit()" name="status" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 w-full md:w-1/4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
                 <option value="">All status</option>
                 @foreach (['pending', 'approved', 'rejected'] as $status)
                 <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>

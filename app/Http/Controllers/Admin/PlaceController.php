@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Place;
+use App\Models\User;
+use App\Notifications\NewPlaceNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class PlaceController extends Controller
@@ -15,28 +18,28 @@ class PlaceController extends Controller
     {
         return view('admin.places.index', [
             'places' => Place::with('category', 'images')->filter(request(['search', 'category', 'sort']))->paginate(),
-            'categories' => Category::all()
+            'categories' => Category::all(),
         ]);
     }
 
     public function create()
     {
         return view('admin.places.create', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
         ]);
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:100',],
+            'name' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string', 'max:1000'],
             'location' => ['required', 'string', 'max:100'],
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
             'image' => ['nullable', 'image', 'max:5120'],
             'images.*' => ['nullable', 'image', 'max:5120'],
-            'category_id' => ['required', 'integer', 'exists:categories,id']
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
         ]);
 
         $duplicate = Place::where('name', $validated['name'])
@@ -50,7 +53,7 @@ class PlaceController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $path =  $request->file('image')->store('images/places/main_images', 'public');
+            $path = $request->file('image')->store('images/places/main_images', 'public');
             $validated['image'] = $path;
         }
 
@@ -64,6 +67,10 @@ class PlaceController extends Controller
             }
         }
 
+        $users = User::where('role', 'user')->get();
+
+        Notification::send($users, new NewPlaceNotification($place));
+
         return redirect()->back()
             ->with('success', 'Place created successfully.');
     }
@@ -72,21 +79,21 @@ class PlaceController extends Controller
     {
         return view('admin.places.create', [
             'place' => $place,
-            'categories' => Category::all()
+            'categories' => Category::all(),
         ]);
     }
 
     public function update(Request $request, Place $place)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:100',],
+            'name' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string', 'max:1000'],
             'location' => ['required', 'string', 'max:100'],
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
             'image' => ['nullable', 'image', 'max:5120'],
             'images.*' => ['nullable', 'image', 'max:5120'],
-            'category_id' => ['required', 'integer', 'exists:categories,id']
+            'category_id' => ['required', 'integer', 'exists:categories,id'],
         ]);
 
         $place->name = $request->name;
@@ -126,10 +133,10 @@ class PlaceController extends Controller
             }
 
             foreach ($place->images as $img) {
-                $fullPath = storage_path('app/public/' . $img->path);
+                $fullPath = storage_path('app/public/'.$img->path);
                 if (file_exists($fullPath)) {
                     $oldHash = md5_file($fullPath);
-                    if (!in_array($oldHash, $uploadedHashes)) {
+                    if (! in_array($oldHash, $uploadedHashes)) {
                         Storage::disk('public')->delete($img->path);
                         $img->delete();
                     }
@@ -141,14 +148,14 @@ class PlaceController extends Controller
                 $exists = false;
 
                 foreach ($place->images as $img) {
-                    $storedPath = storage_path('app/public/' . $img->path);
+                    $storedPath = storage_path('app/public/'.$img->path);
                     if (file_exists($storedPath) && md5_file($storedPath) === $hash) {
                         $exists = true;
                         break;
                     }
                 }
 
-                if (!$exists) {
+                if (! $exists) {
                     $path = $file->store('images/places/add_images', 'public');
                     $place->images()->create(['path' => $path]);
                 } else {
@@ -162,7 +169,6 @@ class PlaceController extends Controller
 
         return back()->with('success', 'Place updated successfully.');
     }
-
 
     public function destroyMainImage(Place $place)
     {
@@ -206,7 +212,7 @@ class PlaceController extends Controller
     public function trashed()
     {
         return view('admin.places.trash', [
-            'places' => Place::onlyTrashed()->get()
+            'places' => Place::onlyTrashed()->get(),
         ]);
     }
 
