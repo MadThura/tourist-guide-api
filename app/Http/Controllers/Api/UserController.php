@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\ApiResponse;
+use App\Http\Resources\Api\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -14,14 +16,13 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    use ApiResponse;
+
     public function me(Request $request)
     {
         $user = $request->user('sanctum');
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
+        return $this->successResponse('Profile reterived successfully', new UserResource($user));
     }
 
     public function store()
@@ -33,10 +34,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $validator->errors(),
-            ], 422);
+            return $this->errorresponse($validator->errors(), 422);
         }
 
         $user = User::create([
@@ -223,50 +221,41 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $validator->errors()
-            ], 422);
+            return $this->errorresponse($validator->errors(), 422);
         }
 
         $user = User::where('email', request('email'))->first();
 
         if (!$user->is_active) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Your account has been suspended.'
-            ]);
+            return $this->errorresponse("Your account has been suspended.");
         }
 
         if (!$user->role !== 'user') {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Forbidden: You are not allowed to access this route.'
-            ], 403);
+            return $this->errorresponse("You are not allowed to access this route.");
         }
 
         if (!$user || !Hash::check(request('password'), $user->password)) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Invalid credentials.'
-            ], 401);
+            return $this->errorresponse("Invalid credentials.", 401);
         }
 
         $user->tokens()->delete();
 
         $token = $user->createToken('user-token')->plainTextToken;
 
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'token' => $token
-        ],);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'user' => $user,
+        //     'token' => $token
+        // ],);
+        return $this->successresponse();
     }
 
 
     public function logout(Request $request)
     {
-        $request->user('sanctum')->currentAccessToken()->delete();
+        $user = $request->user('sanctum');
+
+        $user->tokens()->delete();
 
         return response()->json([
             'status' => 'success',
