@@ -1,3 +1,8 @@
+<?php
+
+use App\Models\Place;
+
+?>
 <x-layout>
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Category</h1>
@@ -22,6 +27,7 @@
             <thead class="bg-gray-100 dark:bg-gray-700 text-xs uppercase text-gray-700 dark:text-gray-300">
                 <tr>
                     <th class="p-3 text-left">Name</th>
+                    <td class="p-3 text-left">Count</td>
                     <th class="p-3 text-left">Actions</th>
                 </tr>
             </thead>
@@ -29,6 +35,7 @@
                 @forelse($categories as $category)
                 <tr class="border-t border-gray-300 dark:border-gray-600">
                     <td class="p-3 text-gray-800 dark:text-gray-100">{{ $category->name }}</td>
+                    <td class="p-3 text-gray-800 dark:text-gray-100"><?php $count = Place::where('category_id', $category->id)->count() ?>{{$count}}</td>
                     <td class="p-3 space-x-2">
                         <a href="{{ route('admin.categories.edit', $category) }}" class="text-blue-500 hover:underline">
                             Edit

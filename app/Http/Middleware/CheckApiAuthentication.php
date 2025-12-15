@@ -17,8 +17,9 @@ class CheckApiAuthentication
     {
         if ($request->is('api/*') && auth('sanctum')->guest()) {
             return response()->json([
-                'status' => 'fail',
-                'message' => 'You must be logged in to access this resource.'
+                'success' => false,
+                'message' => 'You must be logged in to access this resource.',
+                'status' => 401,
             ], 401);
         }
         return $next($request);

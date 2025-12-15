@@ -2,12 +2,14 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Helpers\ApiResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class EnsuerUser
 {
+    use ApiResponse;
     /**
      * Handle an incoming request.
      *
@@ -17,10 +19,7 @@ class EnsuerUser
     {
         $user = $request->user('sanctum');
         if (!$user || $user->role !== 'user') {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Forbidden: You are not allowed to access this route.'
-            ], 403);
+            return $this->errorresponse('Forbidden: You are not allowed to access this route.', 403);
         }
 
         return $next($request);

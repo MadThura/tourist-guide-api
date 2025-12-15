@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Helpers\ApiResponse;
+use App\Http\Resources\Api\ReviewResource;
 use App\Models\Place;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -11,12 +13,11 @@ use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
+    use ApiResponse;
+
     public function index(Place $place)
     {
-        return response()->json([
-            'status' => 'success',
-            'data' => $place->reviews()
-        ]);
+        return $this->successresponse($place->reviews());
     }
 
     public function store(Request $request, Place $place)
@@ -29,10 +30,7 @@ class ReviewController extends Controller
             ->first();
 
         if ($existingReview) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'You have already reviewed this place.'
-            ], 409); // Conflict
+            return $this->errorresponse("You have already reviewed this place.", 409);
         }
 
         $validator = Validator::make($request->all(), [
@@ -43,22 +41,16 @@ class ReviewController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $validator->errors()
-            ], 422);
+            return $this->errorresponse($validator->errors(), 422);
         }
 
         $review = $place->reviews()->create([
-            'user_id' => $request->user('sanctum')->id,
+            'user_id' => $user->id,
             'rating' => $request->rating,
             'comment' => $request->comment,
         ]);
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $review
-        ], 201);
+        return $this->successresponse('Reviews created successfully', new ReviewResource($review), 201);
     }
 
 
@@ -67,9 +59,7 @@ class ReviewController extends Controller
         $user = $request->user('sanctum');
 
         if ($user->id !== $review->user_id) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 403);
+            return $this->errorresponse("Unauthorized.", 403);
         }
 
         $validator = Validator::make($request->all(), [
@@ -78,36 +68,24 @@ class ReviewController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'fail',
-                'errors' => $validator->errors()
-            ]);
+            return $this->errorresponse($validator->errors(), 422);
         }
 
         $review->rating = $request->rating;
         $review->comment = $request->comment;
         $review->save();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $review
-        ]);
+        return $this->successresponse('Review updated successfully', new ReviewResource($review));
     }
 
     public function destroy(Request $request, Review $review)
     {
         $user = $request->user('sanctum');
         if ($user->id !== $review->user_id) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 403);
+            return $this->errorresponse("Unauthorized.", 403);
         }
 
-        $review->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Review deleted successfully'
-        ]);
+        $review->forceDelete();
+        return $this->successresponse("Review deleted successfully.");
     }
 }

@@ -28,10 +28,7 @@ class CheckIfActive
 
         // For API routes
         if (request()->is('api/*') && !$request->user('sanctum')->is_active) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Your account has been suspended.'
-            ], 403);
+            return $this->errorresponse('Your account has been suspended.', 403);
         }
 
         return $next($request);
