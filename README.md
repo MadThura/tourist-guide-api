@@ -17,6 +17,7 @@ A Laravel-powered RESTful API that allows users to discover and explore popular 
 - [MySQL](https://www.mysql.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Alpine.js](https://alpinejs.dev/)
+- Api Format (RESTful API)
 
 ##  📦 Installation
 
