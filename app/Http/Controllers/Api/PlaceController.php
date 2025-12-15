@@ -9,6 +9,8 @@ use App\Models\Place;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PlaceController extends Controller
 {
     use ApiResponse;
@@ -32,15 +34,21 @@ class PlaceController extends Controller
         //     'relatedPlaces' => $relatedPlaces
         // ]);
 
-        return $this->successresponse('Place fetched successfully', $place);
+        return $this->successresponse('Place fetched successfully', new PlaceResource($place));
     }
 
     public function getSavedPlaces(Request $request)
     {
         $user = $request->user('sanctum');
 
-        $savedPlaces = $user->savedPlaces();
+        $savedPlaces = $user->savedPlaces;
 
-        return $this->successresponse('Saved places reterived successfully', $savedPlaces);
+        if (!$savedPlaces) {
+            return $this->errorResponse('Saved places not found!', 404);
+        }
+
+        return $this->successresponse('Saved places reterived successfully', PlaceResource::collection($savedPlaces));
     }
 }
+
+

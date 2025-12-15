@@ -20,7 +20,7 @@ class AuthResource extends JsonResource
                 'id'         => $this['user']->id,
                 'username'   => $this['user']->name,
                 'email'      => $this['user']->email,
-                'role'       => $this['user']->role,
+                // 'role'       => $this['user']->role,
                 'createdAt'  => $this['user']->created_at,
                 'updatedAt'  => $this['user']->updated_at,
             ],

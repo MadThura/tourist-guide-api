@@ -48,9 +48,9 @@ Route::middleware(['api.auth', 'active', 'isUser'])->group(function () {
     // User's profile
     Route::get('/users/me', [UserController::class, 'me']);
 
-    
-    // Route::put('/users/update', [UserController::class, 'update']);
-    // Route::put('/users/change-password', [UserController::class, 'changePassword']);
-    // Route::post('/users/forgot-password', [UserController::class, 'forgotPassword']);
-    // Route::post('/users/reset-password', [UserController::class, 'resetPassword']);
+    // Update username and profile img
+    Route::put('/users/update', [UserController::class, 'update']);
+
+    // Update password
+    Route::put('/users/change-password', [UserController::class, 'changePassword']);
 });

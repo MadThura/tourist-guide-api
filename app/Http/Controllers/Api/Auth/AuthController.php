@@ -10,12 +10,45 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 use function Symfony\Component\Clock\now;
 
 class AuthController extends Controller
 {
     use ApiResponse;
+
+    public function store()
+    {
+        $validator = Validator::make(request()->all(), [
+            'name' => ['required', 'min:2', 'max:50'],
+            'email' => ['required', 'email', Rule::unique('users', 'email')],
+            'password' => ['required', 'min:6', 'max:30'],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorresponse($validator->errors(), 422);
+        }
+
+        $user = User::create([
+            'name' => request('name'),
+            'email' => request('email'),
+            'password' => request('password'),
+            'role' => 'user'
+        ]);
+
+        $accessToken = $user->createToken('access-token', ['*'])->plainTextToken;
+
+        $content = [
+            'user' => $user,
+            'accessToken' => $accessToken,
+            // 'refreshToken' =>  $refreshToken
+        ];
+
+        // event(new Registered($user));
+
+        return $this->successResponse('Register successful', new AuthResource($content), 201);
+    }
 
     public function login(Request $request)
     {
