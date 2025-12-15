@@ -19,25 +19,32 @@ A Laravel-powered RESTful API that allows users to discover and explore popular 
 - [Alpine.js](https://alpinejs.dev/)
 - Api Format (RESTful API)
 
-##  📦 Installation
+## 📦 Installation Guide
 
-# Clone the repository
+```bash
 git clone https://github.com/MadThura/tourist-guide-api.git
-
-# Navigate to the project
+```
+```
 cd tourist-guide-api
-
-# Install dependencies
+```
+```
 composer install
+```
+```
 npm install
-
-# Copy .env file and configure database
+```
+```
 cp .env.example .env
+```
+```
 php artisan key:generate
-
-# Set up your DB config in .env, then run:
+```
+```
 php artisan migrate --seed
+```
+```
+php artisan serve
+```
 
-# Run the server
-- php artisan serve
-- npm run dev
+---
+
