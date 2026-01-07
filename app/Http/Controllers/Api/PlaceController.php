@@ -17,10 +17,14 @@ class PlaceController extends Controller
 
     public function index()
     {
-        $places = Place::filter(request(['search', 'category', 'sortBy_rating']))->get();
+        $places = Place::filter(request(['search', 'category', 'sortBy_rating']))
+            ->paginate(config('pagination.perPage'));
 
         // dd($places);
-        return $this->successresponse('Places retrieved successfully', PlaceResource::collection($places));
+        return $this->successresponse(
+            'Places retrieved successfully',
+            $this->buildPaginatedResourceResponse(PlaceResource::class, $places)
+        );
     }
 
     public function show(Place $place)
@@ -50,5 +54,3 @@ class PlaceController extends Controller
         return $this->successresponse('Saved places reterived successfully', PlaceResource::collection($savedPlaces));
     }
 }
-
-
