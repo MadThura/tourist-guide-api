@@ -18,7 +18,12 @@ class PlaceResource extends JsonResource
             'longitude'   => $this->longitude,
 
             // full image URL
-            'imageUrl'    => $this->image ? asset('storage/' . $this->image) : null,
+            'image'    => $this->image ? asset('storage/' . $this->image) : null,
+
+            'images' => $this->images->map(function ($image) {
+                return asset('storage/' . $image->path);
+            }),
+
 
             // category name
             'category'    => $this->category ? $this->category->name : null,
