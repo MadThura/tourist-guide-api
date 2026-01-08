@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
             $table->string('image')->nullable();
+            $table->decimal('rating', 3, 1)->default(0);
             $table->unsignedBigInteger('category_id')->nullable(); // e.g. "Nature", "Culture"
             $table->timestamps();
             $table->softDeletes();

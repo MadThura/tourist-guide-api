@@ -49,7 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function savedPlaces()
     {
-        return $this->belongsToMany(Place::class);
+        return $this->belongsToMany(Place::class)->withTimestamps();
     }
 
     public function isSaved($place)

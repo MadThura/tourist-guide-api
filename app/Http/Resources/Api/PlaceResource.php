@@ -24,9 +24,10 @@ class PlaceResource extends JsonResource
                 return asset('storage/' . $image->path);
             }),
 
-
             // category name
             'category'    => $this->category ? $this->category->name : null,
+
+            'rating' => $this->rating,
 
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,

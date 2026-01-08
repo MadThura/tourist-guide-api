@@ -17,12 +17,14 @@ class ReviewController extends Controller
 
     public function index(Place $place)
     {
-        return $this->successresponse($place->reviews);
+        return $this->successresponse(ReviewResource::collection($place->reviews));
     }
 
     public function store(Request $request, Place $place)
     {
         $user = $request->user('sanctum');
+
+
 
         // Check for existing review
         $existingReview = $place->reviews()
@@ -36,7 +38,7 @@ class ReviewController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => ['unique:id'],
             'place_id' => ['unique:id'],
-            'rating' => ['required', Rule::in(['good', 'bad'])],
+            'rating' => ['required', Rule::in(['good', 'bad', 'excellent'])],
             'comment' => ['nullable', 'max:1000'],
         ]);
 
@@ -49,6 +51,22 @@ class ReviewController extends Controller
             'rating' => $request->rating,
             'comment' => $request->comment,
         ]);
+
+        $ratingValues = [
+            'bad' => 1,
+            'good' => 3,
+            'excellent' => 5,
+        ];
+
+        $reviews = $place->reviews;
+        $totalReviews = $reviews->count();
+
+        $averageRating = $totalReviews
+            ? round($reviews->sum(fn($r) => $ratingValues[$r->rating]) / $totalReviews, 1)
+            : 0;
+
+        $place->rating = $averageRating;
+        $place->save();
 
         return $this->successresponse('Reviews created successfully', new ReviewResource($review), 201);
     }

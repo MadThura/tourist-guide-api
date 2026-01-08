@@ -10,7 +10,7 @@ class Place extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'location', 'latitude', 'longitude', 'image', 'category_id'];
+    protected $fillable = ['name', 'description', 'location', 'latitude', 'longitude', 'image', 'rating', 'category_id'];
 
     public function images()
     {
