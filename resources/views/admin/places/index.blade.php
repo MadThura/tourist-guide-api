@@ -18,9 +18,9 @@
                 class="p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded">
                 <option value="">All Categories</option>
                 @foreach ($categories as $cat)
-                    <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
-                        {{ $cat->name }}
-                    </option>
+                <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+                    {{ $cat->name }}
+                </option>
                 @endforeach
             </select>
 
@@ -48,41 +48,43 @@
                         <th class="p-3 text-left">Latitude</th>
                         <th class="p-3 text-left">Longitude</th>
                         <th class="p-3 text-left">Category</th>
+                        <th class="p-3 text-left">Rating</th>
                         <th class="p-3 text-left">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($places as $place)
-                        <tr @click="showModal = true; selectedPlace = {{ $place->toJson() }}"
-                            class="cursor-pointer border-t border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                            <td class="p-3">
-                                <img src="{{ asset('storage/' . $place->image) }}" alt="Main Image"
-                                    class="max-h-20 rounded shadow">
-                            </td>
-                            <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->name }}</td>
-                            <td class="p-3 text-gray-700 dark:text-gray-300">
-                                {{ Str::limit($place->description, 100) }}
-                            </td>
-                            <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->location }}</td>
-                            <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->latitude }}</td>
-                            <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->longitude }}</td>
-                            <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->category->name }}</td>
-                            <td class="p-3 space-x-2">
-                                <a href="{{ route('admin.places.edit', $place) }}"
-                                    class="text-blue-500 hover:underline dark:text-blue-400">Edit</a>
-                                <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
-                                    class="inline-block" onsubmit="return confirm('Delete this place?')">
-                                    @csrf @method('DELETE')
-                                    <button
-                                        class="text-red-500 cursor-pointer hover:underline dark:text-red-400">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
+                    <tr @click="showModal = true; selectedPlace = {{ $place->toJson() }}"
+                        class="cursor-pointer border-t border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        <td class="p-3">
+                            <img src="{{ asset('storage/' . $place->image) }}" alt="Main Image"
+                                class="max-h-20 rounded shadow">
+                        </td>
+                        <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->name }}</td>
+                        <td class="p-3 text-gray-700 dark:text-gray-300">
+                            {{ Str::limit($place->description, 100) }}
+                        </td>
+                        <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->location }}</td>
+                        <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->latitude }}</td>
+                        <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->longitude }}</td>
+                        <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->category->name }}</td>
+                        <td class="p-3 text-gray-900 dark:text-gray-100">{{ $place->rating }}</td>
+                        <td class="p-3 space-x-2">
+                            <a href="{{ route('admin.places.edit', $place) }}"
+                                class="text-blue-500 hover:underline dark:text-blue-400">Edit</a>
+                            <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
+                                class="inline-block" onsubmit="return confirm('Delete this place?')">
+                                @csrf @method('DELETE')
+                                <button
+                                    class="text-red-500 cursor-pointer hover:underline dark:text-red-400">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td colspan="8" class="p-3 text-center text-gray-400 dark:text-gray-500">No such place!
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="8" class="p-3 text-center text-gray-400 dark:text-gray-500">No such place!
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

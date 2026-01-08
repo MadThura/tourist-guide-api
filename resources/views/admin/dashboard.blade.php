@@ -70,16 +70,14 @@
                         <div>
                             <h4 class="text-lg font-semibold text-gray-800 dark:text-white">{{ $place->name }}</h4>
                             <p class="text-sm text-gray-600 dark:text-gray-400">
-                                👍 Good: <span class="font-medium text-green-600">{{ $place->good_count }}</span> |
-                                👎 Bad: <span class="font-medium text-red-500">{{ $place->bad_count }}</span> |
-                                📊 Total: <span class="font-medium">{{ $place->total_count }}</span>
+                                📊 Total reviews: <span class="font-medium">{{ $place->reviews->count() }}</span>
                             </p>
                         </div>
                         <div class="text-right">
                             <span class="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-sm font-semibold px-3 py-1 rounded">
-                                {{ round(($place->good_count / max($place->total_count, 1)) * 100, 1) }}%
-                            </span>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">Good Rating</div>
+                            {{$place->rating}}        
+                        </span>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">Rating</div>
                         </div>
                     </div>
                 </div>

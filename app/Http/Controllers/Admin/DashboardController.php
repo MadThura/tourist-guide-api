@@ -20,16 +20,11 @@ class DashboardController extends Controller
         $numOfCategory = Category::all()->count();
         $numOfPendingReviews = Review::where('status', 'pending')->get()->count();
 
-        $topPlaces = Place::withCount([
-            'reviews as good_count' => fn($q) => $q->where('rating', 'good'),
-            'reviews as bad_count' => fn($q) => $q->where('rating', 'bad'),
-            'reviews as total_count',
-        ])
-            ->get()
-            ->filter(fn($place) => $place->total_count > 0)
-            ->sortByDesc(fn($place) => $place->good_count / $place->total_count)
-            ->take(3)
-            ->values();
+        $topPlaces = Place::where('rating', '>', 0) // only rated places
+            ->orderByDesc('rating')
+            ->take(5)
+            ->get();
+
 
 
         return view('admin.dashboard', [
