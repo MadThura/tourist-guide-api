@@ -17,7 +17,7 @@ class ReviewController extends Controller
 
     public function index(Place $place)
     {
-        return $this->successresponse($place->reviews());
+        return $this->successresponse($place->reviews);
     }
 
     public function store(Request $request, Place $place)

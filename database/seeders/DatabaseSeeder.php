@@ -49,9 +49,36 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             $user->createToken('user-token')->plainTextToken;
         }
-        Place::factory(20)->create();
-        Category::factory(10)->create();
-        Review::factory(20)->create();
-        Image::factory(20)->create();
+
+        // $categories = [
+        //     'Pagodas',
+        //     'Restaurants',
+        //     'Museums',
+        //     'Parks',
+        //     'Shopping Center',
+        //     'Local Market',
+        //     'Hotels',
+        //     'Historical landmarks',
+        //     'Souvenirs',
+        // ];
+
+        // foreach ($categories as $category) {
+        //     Category::factory()->create([
+        //         'name' => $category,
+        //     ]);
+        // }
+
+        $this->call([
+            CategoriesSeeder::class,
+            PlacesSeeder::class,  // MUST be first
+            ImagesSeeder::class,
+        ]);
+
+        // Category::
+
+        // Place::factory(20)->create();
+        // Category::factory(10)->create();
+        // Review::factory(20)->create();
+        // Image::factory(20)->create();
     }
 }
