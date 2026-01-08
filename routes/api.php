@@ -7,9 +7,6 @@ use App\Http\Controllers\Api\EmailVerificationController;
 use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\SaveController;
-use App\Models\Category;
-use App\Models\Image;
-use App\Models\Place;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register', [AuthController::class, 'store']);
@@ -23,13 +20,13 @@ Route::post('/email/resend', [EmailVerificationController::class, 'resend'])
     ->name('verification.send');
 
 // Fetch all tourist spots
-// Route::resource('places', PlaceController::class, ['only' => ['index', 'show']]);
+Route::resource('places', PlaceController::class, ['only' => ['index', 'show']]);
 
 // Fetch reviews of each places
 Route::get('/places/{place}/reviews', [ReviewController::class, 'index']);
 
 // Fetch all categories
-// Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index']);
 
 Route::middleware(['api.auth', 'active', 'isUser'])->group(function () {
 
@@ -56,22 +53,4 @@ Route::middleware(['api.auth', 'active', 'isUser'])->group(function () {
 
     // Update password
     Route::put('/users/change-password', [UserController::class, 'changePassword']);
-});
-
-
-// test 
-
-Route::get('/places', function () {
-    $places = Place::all();
-    return response()->json($places);
-});
-
-Route::get('/categories', function () {
-    $categories = Category::all();
-    return response()->json($categories);
-});
-
-Route::get('/images', function () {
-    $images = Image::all();
-    return response()->json($images);
 });
