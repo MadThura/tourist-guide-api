@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register', [AuthController::class, 'store']);
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::post('/auth/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/auth/logout', [AuthController::class, 'logout']);
 
 // Verify email (from email link)
 Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
