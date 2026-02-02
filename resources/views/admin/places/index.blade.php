@@ -72,7 +72,7 @@
                         <td class="p-3 space-x-2">
                             <a href="{{ route('admin.places.edit', $place) }}"
                                 class="text-blue-500 hover:underline dark:text-blue-400">Edit</a>
-                            <form action="{{ route('admin.places.destroy', $place) }}" method="POST"
+                            <form action="{{ route('admin.places.forceDelete', $place) }}" method="POST"
                                 class="inline-block" onsubmit="return confirm('Delete this place?')">
                                 @csrf @method('DELETE')
                                 <button

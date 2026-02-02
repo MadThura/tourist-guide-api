@@ -92,7 +92,7 @@
                                 @csrf @method('PATCH')
                                 <button class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs cursor-pointer">Approve</button>
                             </form>
-                            <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST" class="inline-block" onsubmit="return confirm('Delete this review?')">
+                            <form action="{{ route('admin.reviews.forceDelete', $review) }}" method="POST" class="inline-block" onsubmit="return confirm('Delete this review?')">
                                 @csrf @method('DELETE')
                                 <button class="text-red-500 dark:text-red-400 cursor-pointer">Delete</button>
                             </form>

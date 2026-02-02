@@ -40,7 +40,7 @@ use App\Models\Place;
                         <a href="{{ route('admin.categories.edit', $category) }}" class="text-blue-500 hover:underline">
                             Edit
                         </a>
-                        <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="inline-block"
+                        <form action="{{ route('admin.categories.forceDelete', $category) }}" method="POST" class="inline-block"
                             onsubmit="return confirm('Delete this category?')">
                             @csrf @method('DELETE')
                             <button class="text-red-500 hover:underline">Delete</button>

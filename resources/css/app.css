@@ -25,6 +25,47 @@ button {
 }
 
 .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
+.icon-box {
+    width: 2.5rem;
+    /* SAME WIDTH FOR ALL ICONS */
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Smooth text + remove space when collapsed */
+#sidebar .sidebar-text {
+    transition: opacity 250ms ease, transform 250ms ease, width 250ms ease, margin-left 250ms ease;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+#sidebar.sidebar-collapsed .sidebar-text {
+    opacity: 0;
+    transform: translateX(-6px);
+    width: 0;
+    margin-left: 0 !important;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Center all rows when collapsed */
+#sidebar.sidebar-collapsed .sidebar-item {
+    justify-content: center;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+}
+
+/* Make action buttons look nice when collapsed */
+#sidebar.sidebar-collapsed .sidebar-action {
+    gap: 0 !important;
 }

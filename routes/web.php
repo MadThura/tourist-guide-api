@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\{
     UserController,
     PlaceController,
     CategoryController,
+    EmailController,
     ReviewController,
     SettingController
 };
@@ -82,8 +83,8 @@ Route::middleware(['web.auth', 'active', 'role:superadmin,admin,moderator'])
                 Route::delete('/{place}', 'destroy')->name('destroy');
 
                 // Soft delete
-                Route::get('/trashed', 'trashed')->name('trashed');
-                Route::patch('/{place}/restore', 'restore')->name('restore');
+                // Route::get('/trashed', 'trashed')->name('trashed');
+                // Route::patch('/{place}/restore', 'restore')->name('restore');
                 Route::delete('/{place}/force-delete', 'forceDelete')->name('forceDelete');
 
                 // Images
@@ -103,8 +104,8 @@ Route::middleware(['web.auth', 'active', 'role:superadmin,admin,moderator'])
                 Route::put('/{category}', 'update')->name('update');
                 Route::delete('/{category}', 'destroy')->name('destroy');
 
-                Route::get('/trashed', 'trashed')->name('trashed');
-                Route::patch('/{category}/restore', 'restore')->name('restore');
+                // Route::get('/trashed', 'trashed')->name('trashed');
+                // Route::patch('/{category}/restore', 'restore')->name('restore');
                 Route::delete('/{category}/force-delete', 'forceDelete')->name('forceDelete');
             });
 
@@ -118,10 +119,14 @@ Route::middleware(['web.auth', 'active', 'role:superadmin,admin,moderator'])
                 Route::patch('/{review}/reject', 'reject')->name('reject');
                 Route::delete('/{review}', 'destroy')->name('destroy');
 
-                Route::get('/trashed', 'trashed')->name('trashed');
-                Route::patch('/{review}/restore', 'restore')->name('restore');
+                // Route::get('/trashed', 'trashed')->name('trashed');
+                // Route::patch('/{review}/restore', 'restore')->name('restore');
                 Route::delete('/{review}/force-delete', 'forceDelete')->name('forceDelete');
             });
+
+
+        Route::get('/emails', [EmailController::class, 'index'])->name('emails.index');
+        Route::post('/emails/send', [EmailController::class, 'send'])->name('emails.send');
 
         Route::post('/toggle-darkmode', [AdminContoller::class, 'toggleDarkMode'])->name('toggle.darkmode');
     });

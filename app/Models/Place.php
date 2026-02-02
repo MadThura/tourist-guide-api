@@ -36,8 +36,8 @@ class Place extends Model
     {
         if ($search = $filters['search'] ?? null) {
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('location', 'LIKE', '%' . $search . '%');
+                $q->where('name', 'LIKE', '%' . $search . '%');
+                    // ->orWhere('location', 'LIKE', '%' . $search . '%');
             });
         }
         if ($category = $filters['category'] ?? null) {

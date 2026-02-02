@@ -17,7 +17,7 @@
                     <span class="text-base font-medium">{{ session('fail') }}</span>
                 </div>
                 <button onclick="document.getElementById('alertBox').style.display='none'"
-                    class="text-red-700 hover:text-red-900 transition cursor-pointer">
+                    class="text-red-700 hover:text-red-900 transition cursor-pointer text-2xl">
                     &times;
                 </button>
             </div>
