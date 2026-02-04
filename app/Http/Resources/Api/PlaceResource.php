@@ -29,6 +29,8 @@ class PlaceResource extends JsonResource
 
             'rating' => $this->rating,
 
+            'isFavorited' =>  auth('sanctum')->user() ? auth('sanctum')->user()->isSaved($this) : false,
+
             'created_at'  => $this->created_at,
             'updated_at'  => $this->updated_at,
         ];

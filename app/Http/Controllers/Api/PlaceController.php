@@ -17,13 +17,12 @@ class PlaceController extends Controller
 
     public function index()
     {
-        $places = Place::filter(request(['search', 'category', 'sortBy_rating']))
-            ->paginate(config('pagination.perPage'));
+        $places = Place::filter(request(['search', 'category', 'sortBy_rating']))->get();
 
         // dd($places);
         return $this->successresponse(
             'Places retrieved successfully',
-            $this->buildPaginatedResourceResponse(PlaceResource::class, $places)
+            PlaceResource::collection($places)
         );
     }
 
