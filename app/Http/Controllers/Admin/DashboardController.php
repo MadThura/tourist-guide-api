@@ -8,6 +8,7 @@ use App\Models\Place;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
@@ -27,7 +28,7 @@ class DashboardController extends Controller
 
 
 
-        return view('admin.dashboard', [
+        return Inertia::render('Admin/Dashboard', [
             'displayName' => $displayName,
             'numOfActiveUsers' => $numOfActiveUsers,
             'numOfSusUsers' => $numOfSusUsers,
@@ -35,6 +36,9 @@ class DashboardController extends Controller
             'numOfCategory' => $numOfCategory,
             'numOfPendingReviews' => $numOfPendingReviews,
             'topPlaces' => $topPlaces,
+            'globalSetting' => [
+                'logo' => $globalSetting->logo ?? null,
+            ],
         ]);
     }
 }

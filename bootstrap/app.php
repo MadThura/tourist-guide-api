@@ -7,6 +7,7 @@ use App\Http\Middleware\CheckIfActive;
 use App\Http\Middleware\CheckWebAuth;
 use App\Http\Middleware\EnsuerUser;
 use App\Http\Middleware\EnsureEmailIsVerifiedAPI;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ModeratorMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -30,6 +31,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'api.auth' => CheckApiAuthentication::class,
             'isUser' => EnsuerUser::class,
             'verified.api' => EnsureEmailIsVerifiedAPI::class,
+        ]);
+        $middleware->web(append: [
+            HandleInertiaRequests::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

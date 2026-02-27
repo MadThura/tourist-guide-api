@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use App\Http\Controllers\Admin\{
     AdminContoller,
     AuthController,
@@ -15,7 +16,10 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 
-Route::get('/', fn() => view('welcome'));
+// public welcome page converted to Inertia
+Route::get('/', function () {
+    return Inertia::render('Welcome');
+});
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 

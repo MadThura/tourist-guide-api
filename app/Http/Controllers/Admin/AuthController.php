@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
     public function showLogin()
     {
-        return view('admin.auth.login');
+        return Inertia::render('Admin/Login');
     }
 
     public function login(Request $request)
