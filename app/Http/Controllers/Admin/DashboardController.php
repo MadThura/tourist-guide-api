@@ -34,7 +34,7 @@ class DashboardController extends Controller
             'numOfPlaces' => $numOfPlaces,
             'numOfCategory' => $numOfCategory,
             'numOfPendingReviews' => $numOfPendingReviews,
-            'topPlaces' => $topPlaces
+            'topPlaces' => $topPlaces,
         ]);
     }
 }
