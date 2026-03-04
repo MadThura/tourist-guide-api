@@ -7,12 +7,9 @@ use App\Http\Helpers\ApiResponse;
 use App\Http\Resources\Api\Auth\AuthResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-
-use function Symfony\Component\Clock\now;
 
 class AuthController extends Controller
 {
@@ -73,6 +70,10 @@ class AuthController extends Controller
 
         if (!Hash::check($validatedData['password'], $user->password)) {
             return $this->errorresponse('Your credentials is wrong!', 401);
+        }
+
+        if (!$user->is_active) {
+            return $this->errorresponse('Your account is suspended by admin!', 401);
         }
 
         // try {
