@@ -26,7 +26,7 @@ Route::controller(AuthController::class)
         // Auth routes
         Route::get('/login', 'showLogin')->name('login');
         Route::post('/login', 'login');
-        Route::get('/register', 'register')->name('register');
+        // Route::get('/register', 'register')->name('register');
         Route::post('/logout',  'logout')->name('logout')->middleware(['web.auth']);
     });
 

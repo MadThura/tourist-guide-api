@@ -28,6 +28,16 @@
     <section
         class="relative min-h-screen flex items-center justify-center bg-cover bg-center"
         style="background-image: url({{ asset('images/bg.jpg') }});">
+
+        <!-- Admin Login Button -->
+        <div class="absolute top-6 right-6 z-20">
+            <a
+                href="{{ url('/admin/login') }}"
+                class="px-4 py-2 bg-white/90 text-gray-900 font-semibold rounded-lg shadow hover:bg-white transition backdrop-blur">
+                🔐 Admin Login
+            </a>
+        </div>
+
         <!-- Overlay -->
         <div class="absolute inset-0 bg-black/50"></div>
 
