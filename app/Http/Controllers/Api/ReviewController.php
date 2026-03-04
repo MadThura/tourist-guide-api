@@ -17,14 +17,17 @@ class ReviewController extends Controller
 
     public function index(Place $place)
     {
-        return $this->successresponse(ReviewResource::collection($place->reviews));
+
+        $reviews = Review::where('place_id', $place->id)
+            ->where('status', '!=', 'rejected')
+            ->latest()->get();
+
+        return $this->successresponse(ReviewResource::collection($reviews));
     }
 
     public function store(Request $request, Place $place)
     {
         $user = $request->user('sanctum');
-
-
 
         // Check for existing review
         $existingReview = $place->reviews()
