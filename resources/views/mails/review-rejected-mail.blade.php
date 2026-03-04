@@ -1,27 +1,61 @@
- <div class="max-w-xl mx-auto my-10 p-6 bg-white rounded-lg shadow-md">
-     <h2 class="text-2xl font-semibold text-red-600 mb-4">Review Rejected</h2>
+<div class="max-w-xl mx-auto my-10 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+    <!-- Top Bar -->
+    <div class="px-6 py-5 bg-gray-900">
+        <p class="text-sm text-gray-300">{{ config('app.name') }}</p>
+        <h2 class="mt-1 text-2xl font-semibold text-white">Review Rejected</h2>
+    </div>
 
-     <p class="mb-4">Hi <span class="font-medium text-gray-900">{{ $review->user->name }}</span>,</p>
+    <div class="p-6 text-gray-800">
+        <p class="mb-4">
+            Hi <span class="font-semibold text-gray-900">{{ $review->user->name }}</span>,
+        </p>
 
-     <p class="mb-4">
-         We regret to inform you that your review for
-         <span class="font-semibold text-gray-900">{{ $review->place->name }}</span>
-         has been <span class="text-red-600 font-semibold">rejected</span> by our moderation team.
-     </p>
+        <p class="mb-5 leading-relaxed">
+            Thanks for taking the time to share your experience. Unfortunately, your review for
+            <span class="font-semibold text-gray-900">{{ $review->place->name }}</span>
+            was <span class="font-semibold text-red-600">rejected</span> by our moderation team.
+        </p>
 
-     <div class="bg-red-50 border border-red-200 p-4 rounded mb-4">
-         <p class="text-sm text-red-700">
-             This action was taken because your review did not align with our community guidelines.
-         </p>
-     </div>
+        <!-- Reason / Guidelines -->
+        <div class="rounded-xl border border-red-200 bg-red-50 p-4 mb-6">
+            <p class="text-sm font-semibold text-red-700 mb-1">Why this happened</p>
+            <p class="text-sm text-red-700 leading-relaxed">
+                Your review didn’t align with our community guidelines.
+                @if(!empty($review->rejection_reason))
+                <span class="block mt-2">
+                    <span class="font-semibold">Reason:</span> {{ $review->rejection_reason }}
+                </span>
+                @endif
+            </p>
+        </div>
 
-     <p class="mb-4">
-         If you believe this decision was made in error or would like to appeal, please don’t hesitate to
-         <a href="mailto:support@example.com" class="text-blue-600 hover:underline">contact our support team</a>.
-     </p>
+        <!-- Next steps -->
+        <div class="rounded-xl border border-gray-200 bg-gray-50 p-4 mb-6">
+            <p class="text-sm font-semibold text-gray-900 mb-1">What you can do next</p>
+            <ul class="text-sm text-gray-700 list-disc pl-5 space-y-1">
+                <!-- <li>Edit your review to match the guidelines and submit again.</li> -->
+                <li>If you think this was a mistake, you can appeal by contacting support.</li>
+            </ul>
+        </div>
 
-     <p class="mt-6 text-sm text-gray-500">
-         Thank you for being a part of our community,<br>
-         — The {{ config('app.name') }} Team
-     </p>
- </div>
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-3">
+            @if(!empty($editUrl))
+            <a href="{{ $editUrl }}"
+                class="inline-flex justify-center items-center px-5 py-3 rounded-lg bg-blue-600 text-white font-semibold shadow hover:bg-blue-500 transition">
+                ✍️ Edit & Resubmit
+            </a>
+            @endif
+
+            <a href="mailto:support@example.com"
+                class="inline-flex justify-center items-center px-5 py-3 rounded-lg bg-white border border-gray-300 text-gray-900 font-semibold hover:bg-gray-100 transition">
+                Contact Support
+            </a>
+        </div>
+
+        <p class="mt-8 text-sm text-gray-500 leading-relaxed">
+            Thank you for being part of our community,<br>
+            — The {{ config('app.name') }} Team
+        </p>
+    </div>
+</div>

@@ -62,6 +62,7 @@ class EmailController extends Controller
         // 🔹 Send emails
         foreach ($recipients as $email) {
             Mail::send('emails.broadcast', [
+                'subject'     => $validated['subject'],
                 'content'     => $validated['message'],
                 'buttonText'  => $validated['button_text'] ?? null,
                 'buttonUrl'   => $validated['button_url'] ?? null,

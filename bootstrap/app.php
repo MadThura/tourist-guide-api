@@ -1,13 +1,10 @@
 <?php
 
-use App\Http\Middleware\AdminMiddleware;
-use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckApiAuthentication;
 use App\Http\Middleware\CheckIfActive;
 use App\Http\Middleware\CheckWebAuth;
 use App\Http\Middleware\EnsuerUser;
 use App\Http\Middleware\EnsureEmailIsVerifiedAPI;
-use App\Http\Middleware\ModeratorMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
