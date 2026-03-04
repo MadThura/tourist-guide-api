@@ -146,7 +146,7 @@
     </section>
 
     <!-- ================= CONTACT SECTION ================= -->
-    <section id="contact" class="py-12 md:py-16 bg-gray-100 text-gray-800">
+    <!-- <section id="contact" class="py-12 md:py-16 bg-gray-100 text-gray-800">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 md:px-12 text-center">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
                 📩 Contact Us
@@ -194,7 +194,7 @@
                 </button>
             </form>
         </div>
-    </section>
+    </section> -->
 
     <!-- ================= FOOTER ================= -->
     <footer
