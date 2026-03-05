@@ -12,6 +12,35 @@ class Place extends Model
 
     protected $fillable = ['name', 'description', 'location', 'latitude', 'longitude', 'image', 'rating', 'category_id'];
 
+    /**
+     * Recalculate and persist the average rating based on
+     * all non-rejected reviews for this place.
+     */
+    public function recalculateRating(): void
+    {
+        // numeric weights for each rating label
+        $ratingValues = [
+            'bad' => 1,
+            'good' => 3,
+            'excellent' => 5,
+        ];
+
+        $reviews = $this->reviews()
+            ->where('status', '!=', 'rejected')
+            ->get();
+
+        $totalReviews = $reviews->count();
+
+        $averageRating = $totalReviews
+            ? round($reviews->sum(function ($review) use ($ratingValues) {
+                return $ratingValues[$review->rating] ?? 0;
+            }) / $totalReviews, 1)
+            : 0;
+
+        $this->rating = $averageRating;
+        $this->save();
+    }
+
     public function images()
     {
         return $this->hasMany(Image::class);

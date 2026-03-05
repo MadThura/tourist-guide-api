@@ -55,21 +55,8 @@ class ReviewController extends Controller
             'comment' => $request->comment,
         ]);
 
-        $ratingValues = [
-            'bad' => 1,
-            'good' => 3,
-            'excellent' => 5,
-        ];
-
-        $reviews = $place->reviews;
-        $totalReviews = $reviews->count();
-
-        $averageRating = $totalReviews
-            ? round($reviews->sum(fn($r) => $ratingValues[$r->rating]) / $totalReviews, 1)
-            : 0;
-
-        $place->rating = $averageRating;
-        $place->save();
+        // keep the place rating in sync after new review
+        $place->recalculateRating();
 
         return $this->successresponse('Reviews created successfully', new ReviewResource($review), 201);
     }

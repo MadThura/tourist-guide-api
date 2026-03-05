@@ -23,6 +23,11 @@ class ReviewController extends Controller
         $review->status = 'approved';
         $review->save();
 
+        // Recalculate place rating when a review is approved
+        if ($review->place) {
+            $review->place->recalculateRating();
+        }
+
         return back()->with('success', 'Review approved.');
     }
 
@@ -30,6 +35,12 @@ class ReviewController extends Controller
     {
         $review->status = 'rejected';
         $review->save();
+
+        // When a review is rejected, update the place rating so the
+        // rejected review's value is effectively removed.
+        if ($review->place) {
+            $review->place->recalculateRating();
+        }
 
         Mail::to($review->user->email)->send(new ReviewRejectedMail($review));
 
@@ -40,7 +51,13 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
 
+        $place = $review->place;
         $review->delete();
+
+        // Soft-deleted reviews no longer count towards rating
+        if ($place) {
+            $place->recalculateRating();
+        }
 
         return redirect()->back()->with('success', 'Reviews deleted successfully');
     }
